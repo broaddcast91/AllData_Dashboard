@@ -14,7 +14,7 @@ import DrvingSchool from './scenes/DrvingSchool/DrvingSchool';
 import Logout from './components/Logout/Logout';
 import AllData from './scenes/AllData';
 import Login from './components/Login/Login';
-
+import SabooGroups from './scenes/SabooGroups'
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -53,7 +53,7 @@ function App() {
               <Route path='/alldata' element={<AllData />} />
               <Route path='/bookaservice' element={<BookAService />} />
               <Route path='/drvingschool' element={<DrvingSchool />} />
-
+              <Route path='/saboogroups' element={<SabooGroups />} />
               <Route path='/logout' element={<Logout />} />
               <Route path='/login' element={<Login />} />
             </Routes>

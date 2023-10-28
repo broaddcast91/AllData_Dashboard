@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-
+import "../../style/style.css"
 const defaultTheme = createTheme();
 
 const Login = () => {
@@ -21,6 +21,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isShaking, setIsShaking] = useState(false); // Add a state variable to control the shaking animation
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -49,8 +51,9 @@ const Login = () => {
         }
       );
 
+      const responseData = await response.json();
+
       if (response.ok) {
-        const responseData = await response.json();
         if (responseData.status) {
           const token = responseData.data.token;
           localStorage.setItem("authToken", token);
@@ -58,13 +61,25 @@ const Login = () => {
         } else {
           // Handle unsuccessful login, e.g., show an error message.
           setError("Login failed: " + responseData.message);
+          setIsShaking(true); // Trigger the shake animation
+          setTimeout(() => {
+            setIsShaking(false);
+          }, 300);
         }
       } else {
-        // Handle other network errors.
-        setError("Network error");
+        // Handle other network errors and access response data
+        setError( responseData.message);
+        setIsShaking(true); // Trigger the shake animation
+        setTimeout(() => {
+          setIsShaking(false);
+        }, 300);
       }
     } catch (error) {
       console.error("Error logging in:", error);
+      setIsShaking(true); // Trigger the shake animation
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 300);
     }
   };
 
@@ -89,17 +104,25 @@ const Login = () => {
             width: "400px",
             marginTop: "80px",
             backgroundSize: "contain",
+            
           }}
         />
         <Grid item xs={12} sm={8} md={5}>
           <Box
             sx={{
+              height:"500px",
+              width:"400px",
               my: 8,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               marginRight: "100px",
+              padding:"50px",
+              boxShadow: "1px 2px 7px rgba(0.3, 0.3, 0.3, 0.3)", // Add your shadow properties here
+              borderRadius:"20px",
+              animation: isShaking ? "shake 0.5s" : "",
+              
             }}
           >
             <img
@@ -176,6 +199,9 @@ const Login = () => {
                   mb: 2,
                   backgroundColor: "#3e4396",
                   borderRadius: "10px",
+                   "&:hover": {
+                backgroundColor: "red",
+              },
                 }}
               >
                 Login In

@@ -21,7 +21,7 @@ import {
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
-const AllData = () => {
+const ArenaAllData = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -358,7 +358,7 @@ const CustomToolbar = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color:"#3e4396"
+            color:"#1d3a8a"
           }}
         >
           <DownloadIcon />
@@ -375,7 +375,7 @@ const CustomToolbar = () => {
           justifyContent: "space-between",
         }}
       >
-     <Header title="All Data" subtitle='data from all the forms'  />
+     <Header title="Arena All Data" subtitle='data from all the forms'  />
         <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ marginRight: "10px" }}>
             <TextField
@@ -406,7 +406,7 @@ const CustomToolbar = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#3e4396", mr: 2,color: "white",  '&:hover': {
+            sx={{ backgroundColor: "#1d3a8a", mr: 2,color: "white",  '&:hover': {
               backgroundColor: "red",
             },
            }}
@@ -441,7 +441,7 @@ const CustomToolbar = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ mr: 2, backgroundColor: "#3e4396" , color: "white", '&:hover': {
+            sx={{ mr: 2, backgroundColor: "#1d3a8a" , color: "white", '&:hover': {
               backgroundColor: "red",
             }, }}
             onClick={uniqueEntries}
@@ -452,7 +452,7 @@ const CustomToolbar = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#3e4396",color: "white",  '&:hover': {
+            sx={{ backgroundColor: "#1d3a8a",color: "white",  '&:hover': {
               backgroundColor: "red",
             }, }}
             onClick={handleReset}
@@ -498,26 +498,20 @@ const CustomToolbar = () => {
           },
           "& .MuiDataGrid-columnHeader": {
             color: "white",
-            backgroundColor: colors.blueAccent[700], // Optional background color for headers
+            backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
           },
-          // "& .MuiDataGrid-footerContainer": {
-          //   borderTop: "none",
-          //   backgroundColor: colors.blueAccent[700],
-          //   "& .MuiTypography-root": {
-          //     color: "white", // Change the footer text color to white
-          //   },
-          // },
+         
           "& .MuiCheckbox-root": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.blueAccent[700]}} !important`,
+            color: `${colors.sabooAutoColors[600]}} !important`,
           },
           "& .MuiDataGrid-sortIcon": {
             color: "white",
@@ -566,6 +560,6 @@ const CustomToolbar = () => {
   );
 };
 
-export default AllData;
+export default ArenaAllData;
 
 

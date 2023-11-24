@@ -57,7 +57,7 @@ const Login = () => {
         if (responseData.status) {
           const token = responseData.data.token;
           localStorage.setItem("authToken", token);
-          window.location.href = "/popup";
+          window.location.href = "/alldata";
         } else {
           // Handle unsuccessful login, e.g., show an error message.
           setError("Login failed: " + responseData.message);
@@ -132,7 +132,7 @@ const Login = () => {
               width="150"
               style={{ marginRight: "16px", marginTop: "-20px" }}
             />
-            <Avatar sx={{ m: 1, backgroundColor: "#3e4396" }}>
+            <Avatar sx={{ m: 1, backgroundColor: "#1d3a8a" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
@@ -197,7 +197,7 @@ const Login = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#3e4396",
+                  backgroundColor: "#1d3a8a",
                   borderRadius: "10px",
                    "&:hover": {
                 backgroundColor: "red",

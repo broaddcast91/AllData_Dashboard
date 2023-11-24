@@ -1,18 +1,16 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button } from '@mui/material';
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from "../../theme";
+import { tokens } from '../../theme';
 
-import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
-import axios from "axios";
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import Header from '../../components/Header';
+import { useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 //import date range picker files
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { LocalizationProvider } from "@mui/x-date-pickers";
-// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+// import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
+
 import {
   DataGrid,
   GridToolbarContainer,
@@ -24,46 +22,50 @@ import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
 
-const DrvingSchool = () => {
+
+const NexaAllData = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const [col, setCol] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "https://arena-backend-zj42.onrender.com/getDrivingSchool"
+          "https://saboo-nexa.onrender.com/allData"
         );
+
+        const unifiedData = res.data.data.map((item) => ({
+          ...item,
+          Name: item.Last_Name || item.name,
+          "Phone Number": item.Phone || item.Mobile || item.phone,
+        }));
+
         setCol([
           { field: "id", headerName: "ID", flex: 0.5 },
           {
-            field: "name",
+            field: "Name",
             headerName: "Name",
             flex: 1,
+            cellClassName: "name-column--cell",
           },
           {
-            field: "phone",
+            field: "Phone Number",
             headerName: "Phone Number",
             flex: 1,
             cellClassName: "phone-column--cell",
           },
           {
-            field: "email",
-            headerName: "Email",
-            flex: 1,
-          },
-
-          {
-            field: "outlet",
-            headerName: "Outlet",
+            field: "leadFrom",
+            headerName: "Lead From",
             flex: 1,
           },
           {
@@ -77,7 +79,8 @@ const DrvingSchool = () => {
             flex: 1,
           },
         ]);
-        setData(res.data.data);
+
+        setData(unifiedData);
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -99,6 +102,7 @@ const DrvingSchool = () => {
     setEndDate(event.target.value);
   };
   
+
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
@@ -115,35 +119,35 @@ const DrvingSchool = () => {
       //   .slice(0, 10);
 
       const res = await axios.post(
-        "https://arena-backend-zj42.onrender.com/drivingSchoolRange",
+        'https://arena-backend-zj42.onrender.com/findDataInRangeInAllCollections',
         {
           startDate: startDate,
           endDate: endDate,
         }
       );
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.Phone || item.Mobile || item.phone,
+      }));
+
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "name",
+          field: "Name",
           headerName: "Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
         {
-          field: "phone",
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: "email",
-          headerName: "Email",
-          flex: 1,
-        },
-
-        {
-          field: "outlet",
-          headerName: "Outlet",
+          field: "leadFrom",
+          headerName: "Lead From",
           flex: 1,
         },
         {
@@ -157,7 +161,8 @@ const DrvingSchool = () => {
           flex: 1,
         },
       ]);
-      setData(res.data.data);
+
+      setData(unifiedData);
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -170,36 +175,35 @@ const DrvingSchool = () => {
       fetchUniqueValues(startDate, endDate);
     }
   }, [startDate, endDate]);
-
   const handleReset = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "https://arena-backend-zj42.onrender.com/getDrivingSchool"
+        'https://arena-backend-zj42.onrender.com/allData'
       );
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.Phone || item.Mobile || item.phone,
+      }));
+
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "name",
+          field: "Name",
           headerName: "Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
         {
-          field: "phone",
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: "email",
-          headerName: "Email",
-          flex: 1,
-        },
-
-        {
-          field: "outlet",
-          headerName: "Outlet",
+          field: "leadFrom",
+          headerName: "Lead From",
           flex: 1,
         },
         {
@@ -213,9 +217,11 @@ const DrvingSchool = () => {
           flex: 1,
         },
       ]);
-      setData(res.data.data);
 
+      setData(unifiedData);
       setLoading(false);
+      setStartDate(null)
+      setEndDate(null)
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -226,33 +232,36 @@ const DrvingSchool = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "https://arena-backend-zj42.onrender.com/dupesDrivingSchool"
+        'https://arena-backend-zj42.onrender.com/findDuplicatesInAllCollections'
       );
 
-      // Process the response data to create rows
-      const processedData = res.data.data.map((item, index) => ({
-        id: index + 1,
-        date: item.date,
-        phoneNumber: item.number,
-        count: item.count,
-      }));
+      // Process the response data to create rows with phoneNumber, model, and count
+      const processedData = [];
+      let idCounter = 1;
+
+      res.data.data.forEach((item) => {
+        processedData.push({
+          id: idCounter++,
+          phoneNumber: item.number,
+          model: item.vehicle || '',
+          count: item.count,
+          date: item.date, // Adding the date field
+          leadFrom :item.leadFrom
+        });
+      });
 
       setCol([
-        { field: "id", headerName: "ID", flex: 0.5 },
-        {
-          field: "phoneNumber",
-          headerName: "Phone Number",
-          flex: 1,
-          cellClassName: "phone-column--cell",
-        },
-        { field: "count", headerName: "Count", flex: 1 },
-        { field: "date", headerName: "Date", flex: 1 },
-
-        {},
+        { field: 'id', headerName: 'ID', flex: 0.5 },
+        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: 'phone-column--cell', },
+        { field: 'model', headerName: 'Model', flex: 1 },
+        { field: 'leadFrom', headerName: 'leadFrom', flex: 1 },
+        { field: 'count', headerName: 'Count', flex: 1 },
+        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
       setLoading(false);
+      setStartDate(null)
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -262,31 +271,31 @@ const DrvingSchool = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://arena-backend-zj42.onrender.com/drivingSchoolUniqueEntries`
+        `https://arena-backend-zj42.onrender.com/findUniqueEntriesInAllCollections`
       );
+      const unifiedData = res.data.data.map((item) => ({
+        ...item,
+        Name: item.Last_Name || item.name,
+        "Phone Number": item.Phone || item.Mobile || item.phone,
+      }));
+
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "name",
+          field: "Name",
           headerName: "Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
         {
-          field: "phone",
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
         {
-          field: "email",
-          headerName: "Email",
-          flex: 1,
-        },
-
-        {
-          field: "outlet",
-          headerName: "Outlet",
+          field: "leadFrom",
+          headerName: "Lead From",
           flex: 1,
         },
         {
@@ -300,7 +309,8 @@ const DrvingSchool = () => {
           flex: 1,
         },
       ]);
-      setData(res.data.data);
+
+      setData(unifiedData);
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -325,7 +335,7 @@ const DrvingSchool = () => {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "Driving_School(Arena).csv";
+    a.download = "All_Data(Arena).csv";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
@@ -333,8 +343,8 @@ const DrvingSchool = () => {
   };
 
   // Custom toolbar with the download button
-
-  const CustomToolbar = () => {
+  
+const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
@@ -350,7 +360,7 @@ const DrvingSchool = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color: "#3e4396",
+            color:"#1d3a8a"
           }}
         >
           <DownloadIcon />
@@ -358,7 +368,8 @@ const DrvingSchool = () => {
       </GridToolbarContainer>
     );
   };
-  return (
+
+ return (
     <Box m="20px">
       <div
         style={{
@@ -366,10 +377,7 @@ const DrvingSchool = () => {
           justifyContent: "space-between",
         }}
       >
-        <Header
-          title="driving School"
-          subtitle="List of driving school requests"
-        />
+     <Header title=" Nexa 1All Data" subtitle='data from all the forms'  />
         <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ marginRight: "10px" }}>
             <TextField
@@ -400,14 +408,10 @@ const DrvingSchool = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{
-              backgroundColor: "#3e4396",
-              mr: 2,
-              color: "white",
-              "&:hover": {
-                backgroundColor: "red",
-              },
-            }}
+            sx={{ backgroundColor: "#1d3a8a", mr: 2,color: "white",  '&:hover': {
+              backgroundColor: "red",
+            },
+           }}
             onClick={handleDup}
           >
             Duplicates
@@ -439,14 +443,9 @@ const DrvingSchool = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{
-              mr: 2,
-              backgroundColor: "#3e4396",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "red",
-              },
-            }}
+            sx={{ mr: 2, backgroundColor: "#1d3a8a" , color: "white", '&:hover': {
+              backgroundColor: "red",
+            }, }}
             onClick={uniqueEntries}
           >
             {" "}
@@ -455,13 +454,9 @@ const DrvingSchool = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{
-              backgroundColor: "#3e4396",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "red",
-              },
-            }}
+            sx={{ backgroundColor: "#1d3a8a",color: "white",  '&:hover': {
+              backgroundColor: "red",
+            }, }}
             onClick={handleReset}
           >
             Reset
@@ -490,7 +485,7 @@ const DrvingSchool = () => {
           /> */}
         </div>
       </div>
-
+      
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -505,26 +500,20 @@ const DrvingSchool = () => {
           },
           "& .MuiDataGrid-columnHeader": {
             color: "white",
-            backgroundColor: colors.blueAccent[700], // Optional background color for headers
+            backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
           },
-          // "& .MuiDataGrid-footerContainer": {
-          //   borderTop: "none",
-          //   backgroundColor: colors.blueAccent[700],
-          //   "& .MuiTypography-root": {
-          //     color: "white", // Change the footer text color to white
-          //   },
-          // },
+         
           "& .MuiCheckbox-root": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.blueAccent[700]}} !important`,
+            color: `${colors.sabooAutoColors[600]}} !important`,
           },
           "& .MuiDataGrid-sortIcon": {
             color: "white",
@@ -568,8 +557,11 @@ const DrvingSchool = () => {
           />
         )}
       </Box>
+
     </Box>
   );
 };
 
-export default DrvingSchool;
+export default NexaAllData;
+
+

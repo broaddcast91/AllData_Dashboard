@@ -385,7 +385,7 @@ const SabooGroups = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color: "#3e4396",
+            color: "#1d3a8a",
           }}
         >
           <DownloadIcon />
@@ -437,7 +437,7 @@ const SabooGroups = () => {
             variant="contained"
             color="primary"
             sx={{
-              backgroundColor: "#3e4396",
+              backgroundColor: "#1d3a8a",
               mr: 2,
               color: "white",
               "&:hover": {
@@ -455,7 +455,7 @@ const SabooGroups = () => {
             color="primary"
             sx={{
               mr: 2,
-              backgroundColor: "#3e4396",
+              backgroundColor: "#1d3a8a",
               color: "white",
               "&:hover": {
                 backgroundColor: "red",
@@ -470,7 +470,7 @@ const SabooGroups = () => {
             variant="contained"
             color="primary"
             sx={{
-              backgroundColor: "#3e4396",
+              backgroundColor: "#1d3a8a",
               color: "white",
               "&:hover": {
                 backgroundColor: "red",
@@ -497,7 +497,7 @@ const SabooGroups = () => {
           },
           "& .MuiDataGrid-columnHeader": {
             color: "white",
-            backgroundColor: colors.blueAccent[700], // Optional background color for headers
+            backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
@@ -510,13 +510,13 @@ const SabooGroups = () => {
           //   },
           // },
           "& .MuiCheckbox-root": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.blueAccent[700]}} !important`,
+            color: `${colors.sabooAutoColors[600]}} !important`,
           },
           "& .MuiDataGrid-sortIcon": {
             color: "white",

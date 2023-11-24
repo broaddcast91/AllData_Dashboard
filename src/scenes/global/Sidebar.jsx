@@ -4,31 +4,32 @@ import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+// import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import PriceChangeIcon from "@mui/icons-material/PriceChange";
-import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-import CarCrashIcon from "@mui/icons-material/CarCrash";
-import CarRepairIcon from "@mui/icons-material/CarRepair";
+// import PriceChangeIcon from "@mui/icons-material/PriceChange";
+// import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+// import CarCrashIcon from "@mui/icons-material/CarCrash";
+// import CarRepairIcon from "@mui/icons-material/CarRepair";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import SportsMotorsportsIcon from "@mui/icons-material/SportsMotorsports";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+// import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+// import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+// import SportsMotorsportsIcon from "@mui/icons-material/SportsMotorsports";
+// import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
+// import { TbDatabaseStar } from "react-icons/tb";
+import StorageIcon from '@mui/icons-material/Storage';
+import { SiSuzuki } from "react-icons/si";
+import { ImTruck } from "react-icons/im";
 
 const CustomSubMenuTitle = ({ title, icon }) => (
   <Tooltip title={title} placement="right">
-    <span >
+    <span>
       {icon}
-      <span >{title}</span>
+      <span>{title}</span>
     </span>
-   
   </Tooltip>
 );
-
-
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -61,7 +62,7 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.blueAccent[700]} !important`,
+          background: `${colors.sabooAutoColors[600]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -78,21 +79,18 @@ const Sidebar = () => {
         ".custom-submenu-title": {
           padding: "4px",
           color: "white",
-         
         },
-        ".custom-submenu-title :hover":{
+        ".custom-submenu-title :hover": {
           color: "#db4f4a !important",
         },
 
         ".custom-submenu-icon": {
           // marginRight: "100px",
           color: "white",
-         
         },
-        ".custom-submenu-icon :hover":{
+        ".custom-submenu-icon :hover": {
           color: "#db4f4a !important",
         },
-        
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
@@ -151,67 +149,35 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            
-<SubMenu
-  title={
-    <CustomSubMenuTitle title="Arena" icon={<DirectionsCarIcon />} />
-  }
-  selected={selected}
-  setSelected={setSelected}
->
+            <SubMenu
+              title={
+                <CustomSubMenuTitle
+                 
+                  icon={<StorageIcon />}
+                  title="All Data"
+                />
+              }
+              selected={selected}
+              setSelected={setSelected}
+            >
               <Item
-                title="Popup"
-                to="/popup"
-                icon={<DirectionsWalkIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="On-Road Price"
-                to="/onroadprice"
-                icon={<LocalAtmIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Book a Service"
-                to="/bookaservice"
-                icon={<CarRepairIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Finance"
-                to="/finance"
-                icon={<PriceChangeIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Insurance"
-                to="/insurance"
-                icon={<CarCrashIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Driving School"
-                to="/drvingschool"
-                icon={<SportsMotorsportsIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Corporates"
-                to="/corporates"
-                icon={<CorporateFareIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="AllData"
+                title="Arena AllData"
                 to="/alldata"
-                icon={<LeaderboardIcon />}
+                icon={<SiSuzuki />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Nexa AllData"
+                to="/nexadata"
+                icon={<SiSuzuki style={{ color: 'black' }} />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+               <Item
+                title="AutoZone AllData"
+                to="/autozonedata"
+                icon={<ImTruck />}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -219,7 +185,10 @@ const Sidebar = () => {
 
             <SubMenu
               title={
-                <CustomSubMenuTitle title=" SabooGroups" icon={<GroupsIcon />} />
+                <CustomSubMenuTitle
+                  title=" SabooGroups"
+                  icon={<GroupsIcon />}
+                />
               }
               selected={selected}
               setSelected={setSelected}
@@ -231,6 +200,7 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
+              
             </SubMenu>
           </Box>
           <Item
@@ -247,4 +217,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

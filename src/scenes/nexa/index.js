@@ -1,12 +1,12 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button } from "@mui/material";
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from '../../theme';
+import { tokens } from "../../theme";
 
-import LooksOneIcon from '@mui/icons-material/LooksOne';
-import Header from '../../components/Header';
-import { useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import Header from "../../components/Header";
+import { useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 //import date range picker files
 // import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
@@ -21,9 +21,7 @@ import {
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
-
-
-const NexaAllData = () => {
+const AllData = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -97,29 +95,18 @@ const NexaAllData = () => {
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
   };
-  
+
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
   };
-  
 
   async function fetchUniqueValues(startDate, endDate) {
     try {
       setLoading(true);
-      // const formattedStartDate = new Date(startDate);
-      // formattedStartDate.setDate(formattedStartDate.getDate() + 1);
-      // const formattedStartDateString = formattedStartDate
-      //   .toISOString()
-      //   .slice(0, 10);
-
-      // const formattedEndDate = new Date(endDate);
-      // formattedEndDate.setDate(formattedEndDate.getDate() + 1);
-      // const formattedEndDateString = formattedEndDate
-      //   .toISOString()
-      //   .slice(0, 10);
+     
 
       const res = await axios.post(
-        'https://arena-backend-zj42.onrender.com/findDataInRangeInAllCollections',
+        "https://saboo-nexa.onrender.com/findDataInRangeInAllCollections",
         {
           startDate: startDate,
           endDate: endDate,
@@ -179,7 +166,7 @@ const NexaAllData = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://arena-backend-zj42.onrender.com/allData'
+        "https://saboo-nexa.onrender.com/allData"
       );
       const unifiedData = res.data.data.map((item) => ({
         ...item,
@@ -220,8 +207,8 @@ const NexaAllData = () => {
 
       setData(unifiedData);
       setLoading(false);
-      setStartDate(null)
-      setEndDate(null)
+      setStartDate(null);
+      setEndDate(null);
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -232,7 +219,7 @@ const NexaAllData = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        'https://arena-backend-zj42.onrender.com/findDuplicatesInAllCollections'
+        "https://saboo-nexa.onrender.com/findDuplicatesInAllCollections"
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -243,25 +230,30 @@ const NexaAllData = () => {
         processedData.push({
           id: idCounter++,
           phoneNumber: item.number,
-          model: item.vehicle || '',
+          model: item.vehicle || "",
           count: item.count,
           date: item.date, // Adding the date field
-          leadFrom :item.leadFrom
+          leadFrom: item.leadFrom,
         });
       });
 
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
-        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: 'phone-column--cell', },
-        { field: 'model', headerName: 'Model', flex: 1 },
-        { field: 'leadFrom', headerName: 'leadFrom', flex: 1 },
-        { field: 'count', headerName: 'Count', flex: 1 },
-        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "phoneNumber",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        { field: "model", headerName: "Model", flex: 1 },
+        { field: "leadFrom", headerName: "leadFrom", flex: 1 },
+        { field: "count", headerName: "Count", flex: 1 },
+        { field: "date", headerName: "Date", flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
       setLoading(false);
-      setStartDate(null)
+      setStartDate(null);
     } catch (err) {
       setError(err);
       setLoading(false);
@@ -271,7 +263,7 @@ const NexaAllData = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://arena-backend-zj42.onrender.com/findUniqueEntriesInAllCollections`
+        `https://saboo-nexa.onrender.com/findUniqueEntriesInAllCollections`
       );
       const unifiedData = res.data.data.map((item) => ({
         ...item,
@@ -335,7 +327,7 @@ const NexaAllData = () => {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "All_Data(Arena).csv";
+    a.download = "All_Data(Nexa).csv";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
@@ -343,8 +335,8 @@ const NexaAllData = () => {
   };
 
   // Custom toolbar with the download button
-  
-const CustomToolbar = () => {
+
+  const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
@@ -360,7 +352,10 @@ const CustomToolbar = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color:"#1d3a8a"
+            color: "#000000",
+            "&:hover": {
+              color: "#dc2625",
+            },
           }}
         >
           <DownloadIcon />
@@ -369,7 +364,7 @@ const CustomToolbar = () => {
     );
   };
 
- return (
+  return (
     <Box m="20px">
       <div
         style={{
@@ -377,9 +372,9 @@ const CustomToolbar = () => {
           justifyContent: "space-between",
         }}
       >
-     <Header title=" Nexa 1All Data" subtitle='data from all the forms'  />
+        <Header title="All Data" subtitle="data from all the forms" />
         <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: "10px" }}>
             <TextField
               id="start-date"
               label="Start Date"
@@ -416,29 +411,6 @@ const CustomToolbar = () => {
           >
             Duplicates
           </Button>
-
-          {/* <input
-            type='date'
-            required
-            sx={{ mr: 2, backgroundColor: '#940004' }}
-            value={inputValue}
-            onChange={(e) => {
-              const newInputValue = e.target.value;
-              console.log('New input value:', newInputValue);
-              setInputValue(newInputValue);
-              handleRemoveDuplicates(newInputValue);
-            }}
-            style={{
-              backgroundColor: '#940004',
-              color: 'white',
-              borderRadius: '6px',
-              border: 'none',
-              padding: '6px',
-              margin: '15px', // Add margin to separate input and button
-              flex: 1,
-              // Allow the input to grow to fill available space
-            }}
-          /> */}
 
           <Button
             variant="contained"
@@ -485,7 +457,7 @@ const CustomToolbar = () => {
           /> */}
         </div>
       </div>
-      
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -495,9 +467,7 @@ const CustomToolbar = () => {
             backgroundColor: "white",
             // border: "1px solid #ccc", // Add a border to the table
           },
-          "& .phone-column--cell": {
-            color: colors.sabooAutoColors[500],
-          },
+
           "& .MuiDataGrid-columnHeader": {
             color: "white",
             backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
@@ -505,7 +475,13 @@ const CustomToolbar = () => {
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
           },
-         
+          // "& .MuiDataGrid-footerContainer": {
+          //   borderTop: "none",
+          //   backgroundColor: colors.blueAccent[700],
+          //   "& .MuiTypography-root": {
+          //     color: "white", // Change the footer text color to white
+          //   },
+          // },
           "& .MuiCheckbox-root": {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
@@ -513,7 +489,7 @@ const CustomToolbar = () => {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.sabooAutoColors[600]}} !important`,
+            color: `${colors.redAccent[1000]} !important`,
           },
           "& .MuiDataGrid-sortIcon": {
             color: "white",
@@ -523,7 +499,10 @@ const CustomToolbar = () => {
           //   backgroundColor: "white",
           //   borderBottom: "1px solid #ccc", // Add a border to table cells
           // },
-
+          "& .phone-column--cell": {
+            color: colors.redAccent[1000],
+            // backgroundColor: "white",
+          },
           "& .css-196n7va-MuiSvgIcon-root": {
             color: "white",
           },
@@ -557,11 +536,8 @@ const CustomToolbar = () => {
           />
         )}
       </Box>
-
     </Box>
   );
 };
 
-export default NexaAllData;
-
-
+export default AllData;

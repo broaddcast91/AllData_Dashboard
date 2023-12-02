@@ -415,29 +415,6 @@ const CustomToolbar = () => {
             Duplicates
           </Button>
 
-          {/* <input
-            type='date'
-            required
-            sx={{ mr: 2, backgroundColor: '#940004' }}
-            value={inputValue}
-            onChange={(e) => {
-              const newInputValue = e.target.value;
-              console.log('New input value:', newInputValue);
-              setInputValue(newInputValue);
-              handleRemoveDuplicates(newInputValue);
-            }}
-            style={{
-              backgroundColor: '#940004',
-              color: 'white',
-              borderRadius: '6px',
-              border: 'none',
-              padding: '6px',
-              margin: '15px', // Add margin to separate input and button
-              flex: 1,
-              // Allow the input to grow to fill available space
-            }}
-          /> */}
-
           <Button
             variant="contained"
             color="primary"
@@ -459,28 +436,7 @@ const CustomToolbar = () => {
           >
             Reset
           </Button>
-          {/* <Button
-            variant='contained'
-            color='primary'
-            sx={{ ml: 2, backgroundColor: '#940004' }}
-            onClick={handleRemoveDuplicates}
-          >
-            Unique
-          </Button>
-          <input
-            type='date'
-            required
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            style={{
-              marginLeft: '16px',
-              backgroundColor: '#940004',
-              color: 'white',
-              borderRadius: '8px',
-              border: 'none',
-              padding: '8px',
-            }}
-          /> */}
+         
         </div>
       </div>
       

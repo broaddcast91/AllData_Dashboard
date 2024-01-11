@@ -372,7 +372,7 @@ const AllData = () => {
           justifyContent: "space-between",
         }}
       >
-        <Header title="All Data" subtitle="data from all the forms" />
+        <Header title=" Nexa All Data" subtitle="data from all the forms" />
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ marginRight: "10px" }}>
             <TextField
@@ -403,21 +403,29 @@ const AllData = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#1d3a8a", mr: 2,color: "white",  '&:hover': {
-              backgroundColor: "red",
-            },
-           }}
+            sx={{
+              backgroundColor: colors.sabooAutoColors[600],
+              mr: 2,
+              color: "white",
+              "&:hover": {
+                backgroundColor: colors.redAccent[1000],
+              },
+            }}
             onClick={handleDup}
           >
             Duplicates
           </Button>
-
           <Button
             variant="contained"
             color="primary"
-            sx={{ mr: 2, backgroundColor: "#1d3a8a" , color: "white", '&:hover': {
-              backgroundColor: "red",
-            }, }}
+            sx={{
+              mr: 2,
+              backgroundColor:colors.sabooAutoColors[600],
+              color: "white",
+              "&:hover": {
+                backgroundColor: colors.redAccent[1000],
+              },
+            }}
             onClick={uniqueEntries}
           >
             {" "}
@@ -426,9 +434,13 @@ const AllData = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#1d3a8a",color: "white",  '&:hover': {
-              backgroundColor: "red",
-            }, }}
+            sx={{
+              backgroundColor: colors.sabooAutoColors[600],
+              color: "white",
+              "&:hover": {
+                backgroundColor: colors.redAccent[1000],
+              },
+            }}
             onClick={handleReset}
           >
             Reset

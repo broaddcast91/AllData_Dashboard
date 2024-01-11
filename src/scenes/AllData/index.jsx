@@ -21,7 +21,7 @@ import {
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
-const ArenaAllData = () => {
+const AllData = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -358,7 +358,7 @@ const CustomToolbar = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color:"#1d3a8a"
+            color:"#3e4396"
           }}
         >
           <DownloadIcon />
@@ -406,7 +406,7 @@ const CustomToolbar = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#1d3a8a", mr: 2,color: "white",  '&:hover': {
+            sx={{ backgroundColor: colors.sabooAutoColors[600], mr: 2,color: "white",  '&:hover': {
               backgroundColor: "red",
             },
            }}
@@ -415,10 +415,12 @@ const CustomToolbar = () => {
             Duplicates
           </Button>
 
+       
+
           <Button
             variant="contained"
             color="primary"
-            sx={{ mr: 2, backgroundColor: "#1d3a8a" , color: "white", '&:hover': {
+            sx={{ mr: 2, backgroundColor: colors.sabooAutoColors[600] , color: "white", '&:hover': {
               backgroundColor: "red",
             }, }}
             onClick={uniqueEntries}
@@ -429,14 +431,35 @@ const CustomToolbar = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#1d3a8a",color: "white",  '&:hover': {
+            sx={{ backgroundColor:colors.sabooAutoColors[600],color: "white",  '&:hover': {
               backgroundColor: "red",
             }, }}
             onClick={handleReset}
           >
             Reset
           </Button>
-         
+          {/* <Button
+            variant='contained'
+            color='primary'
+            sx={{ ml: 2, backgroundColor: '#940004' }}
+            onClick={handleRemoveDuplicates}
+          >
+            Unique
+          </Button>
+          <input
+            type='date'
+            required
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            style={{
+              marginLeft: '16px',
+              backgroundColor: '#940004',
+              color: 'white',
+              borderRadius: '8px',
+              border: 'none',
+              padding: '8px',
+            }}
+          /> */}
         </div>
       </div>
       
@@ -449,9 +472,7 @@ const CustomToolbar = () => {
             backgroundColor: "white",
             // border: "1px solid #ccc", // Add a border to the table
           },
-          "& .phone-column--cell": {
-            color: colors.sabooAutoColors[500],
-          },
+
           "& .MuiDataGrid-columnHeader": {
             color: "white",
             backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
@@ -459,7 +480,7 @@ const CustomToolbar = () => {
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.sabooAutoColors[400],
           },
-         
+
           "& .MuiCheckbox-root": {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
@@ -467,7 +488,7 @@ const CustomToolbar = () => {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.sabooAutoColors[600]}} !important`,
+            color: `${colors.redAccent[1000]} !important`,
           },
           "& .MuiDataGrid-sortIcon": {
             color: "white",
@@ -477,7 +498,10 @@ const CustomToolbar = () => {
           //   backgroundColor: "white",
           //   borderBottom: "1px solid #ccc", // Add a border to table cells
           // },
-
+          "& .phone-column--cell": {
+            color: colors.redAccent[1000],
+            // backgroundColor: "white",
+          },
           "& .css-196n7va-MuiSvgIcon-root": {
             color: "white",
           },
@@ -516,6 +540,6 @@ const CustomToolbar = () => {
   );
 };
 
-export default ArenaAllData;
+export default AllData;
 
 

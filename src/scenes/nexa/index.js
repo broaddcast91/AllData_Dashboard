@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from "../../theme";
-
+import { useNavigate } from "react-router-dom";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
@@ -30,23 +30,37 @@ const AllData = () => {
   const [data, setData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
   const [col, setCol] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+           navigate("/login");
+          return;
+        }
         const res = await axios.get(
-          "https://saboo-nexa.onrender.com/allData"
+          "https://saboo-nexa.onrender.com/allData",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
 
-        const unifiedData = res.data.data.map((item) => ({
-          ...item,
-          Name: item.Last_Name || item.name,
-          "Phone Number": item.Phone || item.Mobile || item.phone,
-        }));
-
+        const unifiedData = res.data.data.map((item) => {
+          const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
+  
+          return {
+            ...rest,
+            Name: Last_Name || name,
+            "Phone Number": Phone || Mobile || phone,
+            model: model ? model.toUpperCase() : model,
+          };
+        });
+  
         setCol([
           { field: "id", headerName: "ID", flex: 0.5 },
           {
@@ -58,6 +72,12 @@ const AllData = () => {
           {
             field: "Phone Number",
             headerName: "Phone Number",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+          {
+            field: "model",
+            headerName: "Model",
             flex: 1,
             cellClassName: "phone-column--cell",
           },
@@ -82,11 +102,12 @@ const AllData = () => {
         setLoading(false);
       } catch (err) {
         setError(err);
+        navigate("/login");
         setLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [navigate]);
 
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
@@ -100,79 +121,113 @@ const AllData = () => {
     setEndDate(event.target.value);
   };
 
-  async function fetchUniqueValues(startDate, endDate) {
-    try {
-      setLoading(true);
-     
-
-      const res = await axios.post(
-        "https://saboo-nexa.onrender.com/findDataInRangeInAllCollections",
-        {
-          startDate: startDate,
-          endDate: endDate,
-        }
-      );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
-
-      setCol([
-        { field: "id", headerName: "ID", flex: 0.5 },
-        {
-          field: "Name",
-          headerName: "Name",
-          flex: 1,
-          cellClassName: "name-column--cell",
-        },
-        {
-          field: "Phone Number",
-          headerName: "Phone Number",
-          flex: 1,
-          cellClassName: "phone-column--cell",
-        },
-        {
-          field: "leadFrom",
-          headerName: "Lead From",
-          flex: 1,
-        },
-        {
-          field: "date",
-          headerName: "Date",
-          flex: 1,
-        },
-        {
-          field: "time",
-          headerName: "Time",
-          flex: 1,
-        },
-      ]);
-
-      setData(unifiedData);
-      setLoading(false);
-    } catch (err) {
-      setError(err);
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    const fetchUniqueValues = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        
+        
+        const res = await axios.post(
+          "https://saboo-nexa.onrender.com/findDataInRangeInAllCollections",
+          {
+            startDate: startDate,
+            endDate: endDate,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const unifiedData = res.data.data.map((item) => {
+          const {  model, ...rest } = item;
+  
+          return {
+            ...rest,
+            // Name: Last_Name || name,
+            // "Phone Number": Phone || Mobile || phone,
+            model: model ? model.toUpperCase() : model,
+          };
+        });
+        
+        setCol([
+          { field: "id", headerName: "ID", flex: 0.5 },
+          {
+            field: "name",
+            headerName: "Name",
+            flex: 1,
+            cellClassName: "name-column--cell",
+          },
+          {
+            field: "phone",
+            headerName: "Phone Number",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+          {
+            field: "model",
+            headerName: "Model",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+          {
+            field: "leadFrom",
+            headerName: "Lead From",
+            flex: 1,
+          },
+          {
+            field: "date",
+            headerName: "Date",
+            flex: 1,
+          },
+          {
+            field: "time",
+            headerName: "Time",
+            flex: 1,
+          },
+        ]);
+        setData(unifiedData);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        window.alert(err);
+        navigate("/login");
+        setLoading(false);
+      }
+    };
+  
     if (startDate && endDate) {
-      fetchUniqueValues(startDate, endDate);
+      fetchUniqueValues();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, navigate]);
+
   const handleReset = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        "https://saboo-nexa.onrender.com/allData"
+        "https://saboo-nexa.onrender.com/allData",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
+      const unifiedData = res.data.data.map((item) => {
+        const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
+
+        return {
+          ...rest,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone,
+          model: model ? model.toUpperCase() : model,
+        };
+      });
 
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
@@ -187,6 +242,12 @@ const AllData = () => {
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
+        },
+        {
+          field: "model",
+          headerName: "Model",
+          flex: 1,
+      
         },
         {
           field: "leadFrom",
@@ -211,6 +272,8 @@ const AllData = () => {
       setEndDate(null);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
@@ -218,8 +281,16 @@ const AllData = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        "https://saboo-nexa.onrender.com/findDuplicatesInAllCollections"
+        "https://saboo-nexa.onrender.com/findDuplicatesInAllCollections",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       // Process the response data to create rows with phoneNumber, model, and count
@@ -230,7 +301,8 @@ const AllData = () => {
         processedData.push({
           id: idCounter++,
           phoneNumber: item.number,
-          model: item.vehicle || "",
+          // model: item.vehicle || "",
+          model: item.vehicle ? item.vehicle.toUpperCase() : "", // Convert model to uppercase
           count: item.count,
           date: item.date, // Adding the date field
           leadFrom: item.leadFrom,
@@ -256,32 +328,52 @@ const AllData = () => {
       setStartDate(null);
     } catch (err) {
       setError(err);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
   const uniqueEntries = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        `https://saboo-nexa.onrender.com/findUniqueEntriesInAllCollections`
+        `https://saboo-nexa.onrender.com/findUniqueEntriesInAllCollections`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
+      const unifiedData = res.data.data.map((item) => {
+        const {  model, ...rest } = item;
 
+        return {
+          ...rest,
+          // Name: Last_Name || name,
+          // "Phone Number": Phone || Mobile || phone,
+          model: model ? model.toUpperCase() : model,
+        };
+      });
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "Name",
+          field: "name",
           headerName: "Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
         {
-          field: "Phone Number",
+          field: "phone",
           headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        {
+          field: "model",
+          headerName: "Model",
           flex: 1,
           cellClassName: "phone-column--cell",
         },
@@ -290,6 +382,7 @@ const AllData = () => {
           headerName: "Lead From",
           flex: 1,
         },
+
         {
           field: "date",
           headerName: "Date",
@@ -306,6 +399,8 @@ const AllData = () => {
       setLoading(false);
     } catch (error) {
       setError(error);
+      window.alert("token expired")
+      navigate("/login");
       setLoading(false);
     }
   };
@@ -363,7 +458,6 @@ const AllData = () => {
       </GridToolbarContainer>
     );
   };
-
   return (
     <Box m="20px">
       <div
@@ -479,6 +573,10 @@ const AllData = () => {
             backgroundColor: "white",
             // border: "1px solid #ccc", // Add a border to the table
           },
+          "& .phone-column--cell": {
+            color: colors.sabooAutoColors[500],
+          },
+
 
           "& .MuiDataGrid-columnHeader": {
             color: "white",
@@ -511,10 +609,10 @@ const AllData = () => {
           //   backgroundColor: "white",
           //   borderBottom: "1px solid #ccc", // Add a border to table cells
           // },
-          "& .phone-column--cell": {
-            color: colors.redAccent[1000],
-            // backgroundColor: "white",
-          },
+          // "& .phone-column--cell": {
+          //   color: colors.redAccent[1000],
+          //   // backgroundColor: "white",
+          // },
           "& .css-196n7va-MuiSvgIcon-root": {
             color: "white",
           },

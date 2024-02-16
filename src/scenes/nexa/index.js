@@ -38,7 +38,7 @@ const AllData = () => {
       try {
         setLoading(true);
 
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("authTokenNexa");
         if (!token) {
            navigate("/login");
           return;
@@ -81,6 +81,7 @@ const AllData = () => {
             flex: 1,
             cellClassName: "phone-column--cell",
           },
+         
           {
             field: "leadFrom",
             headerName: "Lead From",
@@ -125,7 +126,7 @@ const AllData = () => {
     const fetchUniqueValues = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("authTokenNexa");
         if (!token) {
           navigate("/login");
           return;
@@ -143,26 +144,26 @@ const AllData = () => {
           }
         );
         const unifiedData = res.data.data.map((item) => {
-          const {  model, ...rest } = item;
+          const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
   
           return {
             ...rest,
-            // Name: Last_Name || name,
-            // "Phone Number": Phone || Mobile || phone,
+            Name: Last_Name || name,
+            "Phone Number": Phone || Mobile || phone,
             model: model ? model.toUpperCase() : model,
           };
         });
-        
+  
         setCol([
           { field: "id", headerName: "ID", flex: 0.5 },
           {
-            field: "name",
+            field: "Name",
             headerName: "Name",
             flex: 1,
             cellClassName: "name-column--cell",
           },
           {
-            field: "phone",
+            field: "Phone Number",
             headerName: "Phone Number",
             flex: 1,
             cellClassName: "phone-column--cell",
@@ -173,6 +174,7 @@ const AllData = () => {
             flex: 1,
             cellClassName: "phone-column--cell",
           },
+         
           {
             field: "leadFrom",
             headerName: "Lead From",
@@ -189,6 +191,8 @@ const AllData = () => {
             flex: 1,
           },
         ]);
+
+       
         setData(unifiedData);
         setLoading(false);
       } catch (err) {
@@ -207,7 +211,7 @@ const AllData = () => {
   const handleReset = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("authTokenNexa");
       if (!token) {
         navigate("/login");
         return;
@@ -228,7 +232,6 @@ const AllData = () => {
           model: model ? model.toUpperCase() : model,
         };
       });
-
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
@@ -247,8 +250,9 @@ const AllData = () => {
           field: "model",
           headerName: "Model",
           flex: 1,
-      
+          cellClassName: "phone-column--cell",
         },
+       
         {
           field: "leadFrom",
           headerName: "Lead From",
@@ -281,7 +285,7 @@ const AllData = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("authTokenNexa");
       if (!token) {
         navigate("/login");
         return;
@@ -336,7 +340,7 @@ const AllData = () => {
   const uniqueEntries = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("authTokenNexa");
       if (!token) {
         navigate("/login");
         return;
@@ -348,25 +352,26 @@ const AllData = () => {
         }
       );
       const unifiedData = res.data.data.map((item) => {
-        const {  model, ...rest } = item;
+        const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
 
         return {
           ...rest,
-          // Name: Last_Name || name,
-          // "Phone Number": Phone || Mobile || phone,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone,
           model: model ? model.toUpperCase() : model,
         };
       });
+
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
-          field: "name",
+          field: "Name",
           headerName: "Name",
           flex: 1,
           cellClassName: "name-column--cell",
         },
         {
-          field: "phone",
+          field: "Phone Number",
           headerName: "Phone Number",
           flex: 1,
           cellClassName: "phone-column--cell",
@@ -377,12 +382,12 @@ const AllData = () => {
           flex: 1,
           cellClassName: "phone-column--cell",
         },
+       
         {
           field: "leadFrom",
           headerName: "Lead From",
           flex: 1,
         },
-
         {
           field: "date",
           headerName: "Date",
@@ -394,6 +399,7 @@ const AllData = () => {
           flex: 1,
         },
       ]);
+
 
       setData(unifiedData);
       setLoading(false);
@@ -407,7 +413,7 @@ const AllData = () => {
 
   const handleDownloadCSV = () => {
     const csvData = [];
-    const headers = col.map((column) => column.headerName);
+    const headers = col.map((column) => `"${column.headerName}"`);
     csvData.push(headers);
 
     newData.forEach((item) => {
@@ -458,6 +464,8 @@ const AllData = () => {
       </GridToolbarContainer>
     );
   };
+
+
   return (
     <Box m="20px">
       <div

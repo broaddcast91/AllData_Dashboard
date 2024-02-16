@@ -50,8 +50,16 @@ const Login = () => {
           body: JSON.stringify({ email, password }),
         }
       );
+      const response2 = await fetch("https://saboo-nexa.onrender.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
       const responseData = await response.json();
+ const responseData2 = await response2.json();
 
       if (response.ok) {
         if (responseData.status) {
@@ -74,6 +82,13 @@ const Login = () => {
           setIsShaking(false);
         }, 300);
       }
+      if (response2.ok) {
+        if (responseData2.status) {
+          const token = responseData2.data.token;
+          localStorage.setItem("authTokenNexa", token);
+         
+        } 
+      } 
     } catch (error) {
       console.error("Error logging in:", error);
       setIsShaking(true); // Trigger the shake animation
@@ -81,6 +96,8 @@ const Login = () => {
         setIsShaking(false);
       }, 300);
     }
+
+
   };
 
   return (

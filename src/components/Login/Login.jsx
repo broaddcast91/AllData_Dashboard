@@ -57,10 +57,17 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
+      const response3 = await fetch("https://autozone-backend.onrender.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
       const responseData = await response.json();
  const responseData2 = await response2.json();
-
+ const responseData3 = await response3.json();
       if (response.ok) {
         if (responseData.status) {
           const token = responseData.data.token;
@@ -86,6 +93,13 @@ const Login = () => {
         if (responseData2.status) {
           const token = responseData2.data.token;
           localStorage.setItem("authTokenNexa", token);
+         
+        } 
+      } 
+      if (response3.ok) {
+        if (responseData3.status) {
+          const token = responseData3.data.token;
+          localStorage.setItem("authTokenAutozone", token);
          
         } 
       } 

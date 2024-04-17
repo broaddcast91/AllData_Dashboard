@@ -17,6 +17,7 @@ import Login from './components/Login/Login';
 import SabooGroups from './scenes/SabooGroups'
 import NexaAllData from './scenes/nexa';
 import AutoZone from './scenes/AutoZone';
+import Service from './scenes/Service';
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -55,6 +56,7 @@ function App() {
               <Route path='/alldata' element={<ArenaAllData />} />
               <Route path='/nexadata' element={<NexaAllData />} />
               <Route path='/autozonedata' element={<AutoZone />} />
+              <Route path='/service' element={<Service />} />
               {/* <Route path='/bookaservice' element={<BookAService />} /> */}
               {/* <Route path='/drvingschool' element={<DrvingSchool />} /> */}
               <Route path='/saboogroups' element={<SabooGroups />} />

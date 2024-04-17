@@ -21,6 +21,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import StorageIcon from '@mui/icons-material/Storage';
 import { SiSuzuki } from "react-icons/si";
 import { ImTruck } from "react-icons/im";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
 
 const CustomSubMenuTitle = ({ title, icon }) => (
   <Tooltip title={title} placement="right">
@@ -178,6 +179,13 @@ const Sidebar = () => {
                 title="AutoZone AllData"
                 to="/autozonedata"
                 icon={<ImTruck />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+               <Item
+                title="Service"
+                to="/service"
+                icon={<MdOutlineMiscellaneousServices />}
                 selected={selected}
                 setSelected={setSelected}
               />

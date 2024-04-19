@@ -162,7 +162,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             >
               <Item
-                title="Arena AllData"
+                title="Arena All Data"
                 to="/alldata"
                 icon={<SiSuzuki />}
                 selected={selected}
@@ -183,7 +183,7 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
                <Item
-                title="Service"
+                title="Service FeedBack"
                 to="/service"
                 icon={<BiSolidCarWash />}
                 selected={selected}

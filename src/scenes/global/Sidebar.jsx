@@ -21,7 +21,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import StorageIcon from '@mui/icons-material/Storage';
 import { SiSuzuki } from "react-icons/si";
 import { ImTruck } from "react-icons/im";
-import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { BiSolidCarWash } from "react-icons/bi";
 
 const CustomSubMenuTitle = ({ title, icon }) => (
   <Tooltip title={title} placement="right">
@@ -169,14 +169,14 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title="Nexa AllData"
+                title="Nexa All Data"
                 to="/nexadata"
                 icon={<SiSuzuki style={{ color: 'black' }} />}
                 selected={selected}
                 setSelected={setSelected}
               />
                <Item
-                title="AutoZone AllData"
+                title="AutoZone All Data"
                 to="/autozonedata"
                 icon={<ImTruck />}
                 selected={selected}
@@ -185,7 +185,7 @@ const Sidebar = () => {
                <Item
                 title="Service"
                 to="/service"
-                icon={<MdOutlineMiscellaneousServices />}
+                icon={<BiSolidCarWash />}
                 selected={selected}
                 setSelected={setSelected}
               />

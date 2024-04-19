@@ -43,79 +43,147 @@ const Service = () => {
       
         );
         const adjustedData = res.data.data.map(item => ({
-            ...item,
-            issueWithCarPostServicing: item.issueWithCarPostServicing ? 'Yes' : 'No', // Adjust the boolean value to 'Yes' or 'No'
-            explainationRegardingIssuesAndRepairs: item.explainationRegardingIssuesAndRepairs ? 'Yes' : 'No',
-          }));
-        console.log(res)
+          ...item,
+          waitTime: item.waitTime === true ? 'Yes' : item.waitTime === false ? 'No' : undefined,
+          billExplanation: item.billExplanation === true ? 'Yes' : item.billExplanation === false ? 'No' : undefined,
+          transparencyPrice: item.transparencyPrice === true ? 'Yes' : item.transparencyPrice === false ? 'No' : undefined,
+          advisorTimeAndAttention: item.advisorTimeAndAttention === true ? 'Yes' : item.advisorTimeAndAttention === false ? 'No' : undefined,
+         }));
+        console.log(adjustedData)
         let column =   [
             { field: "id", headerName: "ID", flex: 0.5, width: 60, },
             {
-              field: "firstName",
+              field: "name",
               headerName: "FirstName",
               flex: 1,
               width: 150,
               
             },
             {
-              field: "lastName",
-              headerName: "LastName",
-              flex: 1,
-              width: 150,
-            },
+                field: "phone",
+                headerName: "Phone Number",
+                width: 150,
+                flex: 1,
+              },
+              {
+                field: "location",
+                headerName: "Location",
+                flex: 1,
+              },
+              {
+                field: "vehicleNumber",
+                headerName: "vehicle number",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
             {
-              field: "issueWithCarPostServicing",
-              headerName: "Did you face any issues with your car post-servicing?",
+              field: "overAllPerformance",
+              headerName: "how would you rate overall performance of service center?",
               flex: 1,
             //   cellClassName: "phone-column--cell",
             },
             {
-              field: "rateTheQualityOfService",
-              headerName: "How would you rate the quality of service",
+              field: "preferingSabooRKS",
+              headerName: "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
               flex: 1,
             //   cellClassName: "phone-column--cell",
             },
             {
-              field: "satisfiedWithTurnaroundTime",
-              headerName: "How satisfied are you with the turnaround time for the service?",
+              field: "waitTime",
+              headerName: "Wait time before a service advisor attended you",
               flex: 1,
             //   cellClassName: "phone-column--cell",
             },
             {
-              field: "explainationRegardingIssuesAndRepairs",
-              headerName: "Did the service personnel explain the issues and repairs needed clearly?",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
+                field: "advisorTimeAndAttention",
+                headerName: "Time & attention provided by the Service advisor",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+           
+            {
+                field: "advisorsUnderstandingWorkingRequirement",
+                headerName: "Service advisors understanding of work required",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "advisorsListenAbility",
+                headerName: "Service advisors ability to listen",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "advisorsBehavior",
+                headerName: "Behavior of Service advisor",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+            //   {
+            //     field: "advisorsRecommendationOnWorkRequirement",
+            //     headerName: "Did the service personnel explain the issues and repairs needed clearly?",
+            //     flex: 1,
+            //   //   cellClassName: "phone-column--cell",
+            //   },
+           
+              {
+                field: "advisorsRecommendationOnWorkRequirement",
+                headerName: "advisor's recommendation regarding the work required upon inspection of your car",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "advancePerformingWork",
+                headerName: "Explanation of work to be performed in advance",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "workPerformedOnTheCar",
+                headerName: "Explanation about the work performed on the car",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "qualityOfWork",
+                headerName: "Quality of work performed",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+            
+              {
+                field: "postServiceWashingAndCleaning",
+                headerName: "Washing & Cleanliness of the car post service",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "billExplanation",
+                headerName: "Explanation of charges in bill",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+              {
+                field: "transparencyPrice",
+                headerName: "Transparency in prices of services",
+                flex: 1,
+              //   cellClassName: "phone-column--cell",
+              },
+             
             {
               field: "recommendation",
               headerName: "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
               flex: 1,
             //   cellClassName: "phone-column--cell",
             },
-            {
-              field: "vehicleNumber",
-              headerName: "vehicle number",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
+         
             // {
             //   field: "explainationRegardingIssuesAndRepairs",
             //   headerName: "Did the service personnel explain the issues and repairs needed clearly?",
             //   flex: 1,
             //   cellClassName: "phone-column--cell",
             // },
-            {
-              field: "phone",
-              headerName: "Phone Number",
-              width: 150,
-              flex: 1,
-            },
-            {
-              field: "leadFrom",
-              headerName: "Lead From",
-              flex: 1,
-            },
+        
             {
               field: "date",
               headerName: "Date",

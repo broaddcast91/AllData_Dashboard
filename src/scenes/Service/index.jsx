@@ -1,15 +1,20 @@
-import { Box,  } from '@mui/material';
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from '../../theme';
+// import React, { useState } from "react";
+import { tokens } from "../../theme";
 import { useNavigate } from "react-router-dom";
-// import LooksOneIcon from '@mui/icons-material/LooksOne';
-import Header from '../../components/Header';
-import { useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import { Box, Button, Select, MenuItem, Typography } from "@mui/material";
+import Header from "../../components/Header";
+import { useTheme } from "@mui/material";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+// import { colors } from "@mui/material"; // Assuming colors is imported from MUI
+import FilterListIcon from "@mui/icons-material/FilterList";
 //import date range picker files
 // import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
+// import { DateRangePicker } from '@mui/lab';
+// import AdapterDateFns from '@mui/lab/AdapterDateFns';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
   DataGrid,
@@ -20,8 +25,9 @@ import {
 } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+// import { red } from "@mui/material/colors";
 // import TextField from "@mui/material/TextField";
-
+import DatePicker from "react-datepicker";
 const Service = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -29,203 +35,220 @@ const Service = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-//   const [startDate, setStartDate] = useState(null);
-//   const [endDate, setEndDate] = useState(null);
+  // const [startDate, setStartDate] = useState(null);
+  // const [endDate, setEndDate] = useState(null);
   const navigate = useNavigate();
   const [col, setCol] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("Yesterday");
+  // State for start and end dates
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const res = await axios.get(
-          "https://saboo-nexa.onrender.com/getfeedback",
-      
-        );
-        const adjustedData = res.data.data.map(item => ({
-          ...item,
-          waitTime: item.waitTime === true ? 'Yes' : item.waitTime === false ? 'No' : undefined,
-          billExplanation: item.billExplanation === true ? 'Yes' : item.billExplanation === false ? 'No' : undefined,
-          transparencyPrice: item.transparencyPrice === true ? 'Yes' : item.transparencyPrice === false ? 'No' : undefined,
-          advisorTimeAndAttention: item.advisorTimeAndAttention === true ? 'Yes' : item.advisorTimeAndAttention === false ? 'No' : undefined,
-         }));
-        console.log(adjustedData)
-        let column =   [
-            { field: "id", headerName: "ID", flex: 0.5, width: 60, },
-            {
-              field: "name",
-              headerName: "FirstName",
-              flex: 1,
-              width: 150,
-              
-            },
-            {
-                field: "phone",
-                headerName: "Phone Number",
-                width: 150,
-                flex: 1,
-              },
-              {
-                field: "location",
-                headerName: "Location",
-                flex: 1,
-              },
-              {
-                field: "vehicleNumber",
-                headerName: "vehicle number",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-            {
-              field: "overAllPerformance",
-              headerName: "how would you rate overall performance of service center?",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "preferingSabooRKS",
-              headerName: "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "waitTime",
-              headerName: "Wait time before a service advisor attended you",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-                field: "advisorTimeAndAttention",
-                headerName: "Time & attention provided by the Service advisor",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-           
-            {
-                field: "advisorsUnderstandingWorkingRequirement",
-                headerName: "Service advisors understanding of work required",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "advisorsListenAbility",
-                headerName: "Service advisors ability to listen",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "advisorsBehavior",
-                headerName: "Behavior of Service advisor",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-            //   {
-            //     field: "advisorsRecommendationOnWorkRequirement",
-            //     headerName: "Did the service personnel explain the issues and repairs needed clearly?",
-            //     flex: 1,
-            //   //   cellClassName: "phone-column--cell",
-            //   },
-           
-              {
-                field: "advisorsRecommendationOnWorkRequirement",
-                headerName: "advisor's recommendation regarding the work required upon inspection of your car",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "advancePerformingWork",
-                headerName: "Explanation of work to be performed in advance",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "workPerformedOnTheCar",
-                headerName: "Explanation about the work performed on the car",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "qualityOfWork",
-                headerName: "Quality of work performed",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-            
-              {
-                field: "postServiceWashingAndCleaning",
-                headerName: "Washing & Cleanliness of the car post service",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "billExplanation",
-                headerName: "Explanation of charges in bill",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-              {
-                field: "transparencyPrice",
-                headerName: "Transparency in prices of services",
-                flex: 1,
-              //   cellClassName: "phone-column--cell",
-              },
-             
-            {
-              field: "recommendation",
-              headerName: "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-         
-            // {
-            //   field: "explainationRegardingIssuesAndRepairs",
-            //   headerName: "Did the service personnel explain the issues and repairs needed clearly?",
-            //   flex: 1,
-            //   cellClassName: "phone-column--cell",
-            // },
-        
-            {
-              field: "date",
-              headerName: "Date",
-              width: 120,
-              flex: 1,
-            },
-            {
-              field: "time",
-              headerName: "Time",
-              flex: 1,
-              width: 120,
-            },
-          ]
-          console.log("Columns before setting state:", column);
-          setCol(column);
-    
-          console.log("Data from API:", res.data.data);
-          setData(adjustedData);
-          setLoading(false);
-      } catch (err) {
-        setError(err);
-        // window.alert(err)
-        navigate("/login");
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [navigate]);
+  // Handler for date range change
+  // const handleDateRangeChange = (dates) => {
+  //   const [start, end] = dates;
+  //   setStartDate(start);
+  //   setEndDate(end);
+  // };
+
+  const handleFilterChange = (event) => {
+    setSelectedFilter(event.target.value);
+  };
+  // const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+  //   <input
+  //     ref={ref}
+  //     onClick={onClick}
+  //     value={value ? value.toLocaleDateString() : "Select Start Date"}
+  //     placeholder="Select Start Date"
+  //     style={{
+  //       backgroundColor: "#f0f0f0", // Apply the background color here
+  //       height:"40px",
+  //       display: "flex",
+  //       flexDirection: "row", // Change to column to stack children vertically
+  //       justifyContent: "space-between",
+  //       alignItems: "center",
+  //       mr:"8px"
+  //       // Add other styles as needed
+  //     }}
+  //   />
+  // ));
+
+  const CustomInput = React.forwardRef(
+    ({ value, onClick, placeholder }, ref) => (
+      <input
+        ref={ref}
+        value={value}
+        placeholder={placeholder || "Select Date"} // Fallback to a default placeholder if none is provided
+        onClick={onClick}
+        style={{
+          height: "40px",
+          backgroundColor: "#f6f6f6",
+          marginRight: "10px",
+          padding: "10px",
+          width: "150px",
+        }}
+      />
+    )
+  );
 
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
   });
 
-//   const handleStartDateChange = (event) => {
-//     setStartDate(event.target.value);
-//   };
-  
-//   const handleEndDateChange = (event) => {
-//     setEndDate(event.target.value);
-//   };
-  
+  //   const handleStartDateChange = (event) => {
+  //     setStartDate(event.target.value);
+  //   };
 
+  //   const handleEndDateChange = (event) => {
+  //     setEndDate(event.target.value);
+  //   };
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "https://saboo-nexa.onrender.com/filtersfeedbacks",
+        {
+          filter: selectedFilter,
+        }
+      );
+      const unifiedData = res.data.data.map((item) => {
+        const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
+
+        return {
+          ...rest,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone,
+          model: model ? model.toUpperCase() : model,
+        };
+      });
+      setCol([
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "Name",
+          headerName: "Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "Phone Number",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        {
+          field: "model",
+          headerName: "Model",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        {
+          field: "leadFrom",
+          headerName: "Lead From",
+          flex: 1,
+        },
+        {
+          field: "date",
+          headerName: "Date",
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
+          flex: 1,
+        },
+      ]);
+
+      setData(unifiedData);
+      setStartDate("");
+      setEndDate("");
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      navigate("/login");
+      setLoading(false);
+    }
+  }, [selectedFilter, navigate]); // Add dependencies here
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); // Include fetchData in the dependency array
+
+  useEffect(() => {
+    async function fetchUniqueValues() {
+      try {
+        setLoading(true);
+        const res = await axios.post(
+          "https://saboo-nexa.onrender.com/filtersfeedbacks",
+          {
+            filter: selectedFilter,
+            startDate: startDate,
+            endDate: endDate,
+          }
+        );
+        const unifiedData = res.data.data.map((item) => {
+          const { Last_Name, name, Phone, Mobile, phone, model, ...rest } =
+            item;
+
+          return {
+            ...rest,
+            Name: Last_Name || name,
+            "Phone Number": Phone || Mobile || phone,
+            model: model ? model.toUpperCase() : model,
+          };
+        });
+        setCol([
+          { field: "id", headerName: "ID", flex: 0.5 },
+          {
+            field: "Name",
+            headerName: "Name",
+            flex: 1,
+            cellClassName: "name-column--cell",
+          },
+          {
+            field: "Phone Number",
+            headerName: "Phone Number",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+          {
+            field: "model",
+            headerName: "Model",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+          {
+            field: "leadFrom",
+            headerName: "Lead From",
+            flex: 1,
+          },
+          {
+            field: "date",
+            headerName: "Date",
+            flex: 1,
+          },
+          {
+            field: "time",
+            headerName: "Time",
+            flex: 1,
+          },
+        ]);
+
+        setData(unifiedData);
+        setStartDate("");
+        setEndDate("");
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        navigate("/login");
+        setLoading(false);
+      }
+    }
+
+    if (startDate && endDate) {
+      console.log(startDate, endDate);
+      fetchUniqueValues();
+    }
+  }, [data, startDate, endDate, selectedFilter, navigate]); // Added data as a dependency
   const handleDownloadCSV = () => {
     const csvData = [];
     const headers = col.map((column) => column.headerName);
@@ -251,8 +274,8 @@ const Service = () => {
   };
 
   // Custom toolbar with the download button
-  
-const CustomToolbar = () => {
+
+  const CustomToolbar = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
@@ -268,7 +291,7 @@ const CustomToolbar = () => {
             padding: "5px",
             minWidth: "auto",
             height: "25px",
-            color:"#1d3a8a"
+            color: "#1d3a8a",
           }}
         >
           <DownloadIcon />
@@ -285,41 +308,164 @@ const CustomToolbar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Header
-          title="Book a Service"
-          subtitle="feedback for the service"
-        />
-        <div style={{ display: "flex", alignItems: "center" }}>   
+        <Header title="Book a Service" subtitle="feedback for the service" />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{
+              marginBottom: "8px",
+              width: "auto",
+              height: "100px", // Adjust height to auto to accommodate content
+              // border: 1,
+              // borderColor: "black",
+              borderRadius: "10px",
+              // boxShadow:"2px",
+              boxShadow: "1px 1px 3px rgba(0, 0, 0, 0.25)", // Add shadow here
+              display: "flex",
+              flexDirection: "row", // Change to column to stack children vertically
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "10px",
+              overflow: "visible", // Ensure overflow is visible
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <FilterListIcon sx={{ marginRight: 1 }} />
+              Filters
+            </Typography>
+
+            {/* Dropdown for selecting time range */}
+            <Select
+              value={selectedFilter}
+              onChange={handleFilterChange}
+              sx={{
+                width: "150px",
+                color: "black",
+                mr: "8px",
+                ml: "8px",
+                borderRadius: "10px",
+              }}
+            >
+              <MenuItem value="Between">Between</MenuItem>
+              <MenuItem value="Today">Today</MenuItem>
+              <MenuItem value="Yesterday">Yesterday</MenuItem>
+              <MenuItem value="Current Month">Current Month</MenuItem>
+              <MenuItem value="Last Month">Last Month</MenuItem>
+              <MenuItem value="Last Week">Last Week</MenuItem>
+              <MenuItem value="Last 3 Month">Last 3 Month</MenuItem>
+              <MenuItem value="Last 6 Month">Last 6 Month</MenuItem>
+              <MenuItem value="Last 12 Month">Last 12 Month</MenuItem>
+              <MenuItem value="Previous Year">Previous Year</MenuItem>
+            </Select>
+
+            {/* Date range picker */}
+            {selectedFilter === "Between" && (
+              <div
+                style={{
+                  // borderTop: "1px solid #ccc",
+                  display: "flex",
+                  flexDirection: "row",
+                  flexGrow: 1, // Allow this div to grow and take up available space
+                  justifyContent: "flex-end", // Align items to the end (right)
+                }}
+              >
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => {
+                    // Adjust the date to the local timezone
+                    let localDate = new Date(
+                      date.getTime() - date.getTimezoneOffset() * 60000
+                    );
+                    console.log(
+                      "Selected start date:",
+                      localDate.toISOString().slice(0, 10)
+                    );
+                    // Use the adjusted date for setting the state
+                    setStartDate(localDate.toISOString().slice(0, 10));
+                  }}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  customInput={<CustomInput placeholder="Select Start Date" />}
+                />
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => {
+                    // Adjust the date to the local timezone
+                    let localDate = new Date(
+                      date.getTime() - date.getTimezoneOffset() * 60000
+                    );
+                    console.log(
+                      "Selected end date:",
+                      localDate.toISOString().slice(0, 10)
+                    );
+                    // Use the adjusted date for setting the state
+                    setEndDate(localDate.toISOString().slice(0, 10));
+                  }}
+                  selectsEnd
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={startDate}
+                  customInput={<CustomInput placeholder="Select End Date" />}
+                />
+              </div>
+            )}
+
+            <Button
+              variant="contained"
+              // color="primary"
+              onClick={fetchData} // Attach fetchData here
+              // sx={{
+              //   backgroundColor: "#1d3a8a",
+              //   borderRadius:"10px",
+              //   color: "white",
+              //  height:"50px"
+              // }}
+              sx={{
+                backgroundColor: colors.sabooAutoColors[600],
+                borderRadius:"10px",
+                height:"50px",
+                mr: 2,
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "red",
+                },
+              }}
+              // onClick={fetchData}
+            >
+              Submit
+            </Button>
+          </Box>
         </div>
       </div>
 
       <Box
-       
         height="83vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
             backgroundColor: "white",
-          
           },
 
           "& .MuiDataGrid-columnHeader": {
             color: "white",
             backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
-            height:"250px",
+            height: "250px",
             fontSize: "12px", // Adjust the font size as needed
           },
           "& .MuiDataGrid-columnHeaderTitle": {
             whiteSpace: "normal", // Allows text to wrap
             lineHeight: "normal", // Adjusts line height for better readability
           },
-        //   "& .MuiDataGrid-columnHeader": {
-        //     height: "unset !important", // Removes the fixed height to allow for dynamic height based on content
-        //   },
-        //   "& .MuiDataGrid-columnHeaders": {
-        //     maxHeight: "168px !important", // Adjusts the maximum height of the headers to accommodate wrapped text
-        //   },
-         
+          //   "& .MuiDataGrid-columnHeader": {
+          //     height: "unset !important", // Removes the fixed height to allow for dynamic height based on content
+          //   },
+          //   "& .MuiDataGrid-columnHeaders": {
+          //     maxHeight: "168px !important", // Adjusts the maximum height of the headers to accommodate wrapped text
+          //   },
+
           "& .MuiCheckbox-root": {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
@@ -332,10 +478,9 @@ const CustomToolbar = () => {
           "& .MuiDataGrid-sortIcon": {
             color: "white",
           },
-       
+
           "& .phone-column--cell": {
             color: colors.redAccent[1000],
-           
           },
           "& .css-196n7va-MuiSvgIcon-root": {
             color: "white",
@@ -351,7 +496,6 @@ const CustomToolbar = () => {
               backgroundColor: `${colors.sabooAutoColors[700]} !important`,
               borderRadius: "100px",
               height: "5px",
-              
             },
             "&::-webkit-scrollbar-track": {
               backgroundColor: colors.grey[100],
@@ -364,7 +508,7 @@ const CustomToolbar = () => {
         ) : error ? (
           "Error ~ Something went wrong :)"
         ) : (
-            <DataGrid
+          <DataGrid
             rows={newData}
             columns={col
               .filter((column) => column) // Filter out undefined/null columns
@@ -389,7 +533,6 @@ const CustomToolbar = () => {
               fontSize: 15,
             }}
           />
-          
         )}
       </Box>
     </Box>
@@ -397,5 +540,3 @@ const CustomToolbar = () => {
 };
 
 export default Service;
-
-

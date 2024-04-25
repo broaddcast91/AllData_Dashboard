@@ -205,6 +205,8 @@ const AllData = () => {
       fetchUniqueValues();
     }
   }, [startDate, endDate, navigate]);
+
+  
   const handleReset = async () => {
     try {
       setLoading(true);

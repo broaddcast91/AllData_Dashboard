@@ -2,7 +2,7 @@
 // import React, { useState } from "react";
 import { tokens } from "../../theme";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Select, MenuItem, Typography } from "@mui/material";
+import { Box, Select, MenuItem, Typography } from "@mui/material";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import React, { useEffect, useState, useCallback } from "react";
@@ -45,204 +45,206 @@ const Service = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
- 
   const handleStartDateChange = (date) => {
     setStartDate(date.toISOString().slice(0, 10));
-    console.log(startDate)
- };
+    console.log(startDate);
+  };
 
- const handleEndDateChange = (date) => {
+  const handleEndDateChange = (date) => {
     setEndDate(date.toISOString().slice(0, 10));
-    console.log(endDate)
- };
-
+    console.log(endDate);
+  };
 
   const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
   };
 
-
-
   let newData = data.map((item, index) => {
     return { ...item, id: index + 1 };
   });
 
-
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      console.log(selectedFilter)
+      console.log(selectedFilter);
+
+      const token = localStorage.getItem("authTokenNexa");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
       const res = await axios.post(
         "https://saboo-nexa.onrender.com/filtersfeedbacks",
-        JSON.stringify({
-          filter: selectedFilter,
-       }),
        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-       }
+          filter: selectedFilter,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-  
-      let column =   [
-          { field: "id", headerName: "ID", flex: 0.5, width: 60, },
-          {
-            field: "name",
-            headerName: "FirstName",
-            flex: 1,
-            width: 150,
 
-          },
-          {
-              field: "phone",
-              headerName: "Phone Number",
-              width: 150,
-              flex: 1,
-            },
-            {
-              field: "location",
-              headerName: "Location",
-              flex: 1,
-            },
-            {
-              field: "vehicleNumber",
-              headerName: "vehicle number",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-          {
-            field: "overAllPerformance",
-            headerName: "how would you rate overall performance of service center?",
-            flex: 1,
+      let column = [
+        { field: "id", headerName: "ID", flex: 0.5, width: 60 },
+        {
+          field: "name",
+          headerName: "FirstName",
+          flex: 1,
+          width: 150,
+        },
+        {
+          field: "phone",
+          headerName: "Phone Number",
+          width: 150,
+          flex: 1,
+        },
+        {
+          field: "location",
+          headerName: "Location",
+          flex: 1,
+        },
+        {
+          field: "vehicleNumber",
+          headerName: "vehicle number",
+          flex: 1,
           //   cellClassName: "phone-column--cell",
-          },
-          {
-            field: "preferingSabooRKS",
-            headerName: "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
-            flex: 1,
+        },
+        {
+          field: "overAllPerformance",
+          headerName:
+            "how would you rate overall performance of service center?",
+          flex: 1,
           //   cellClassName: "phone-column--cell",
-          },
-          {
-            field: "waitTime",
-            headerName: "Wait time before a service advisor attended you",
-            flex: 1,
+        },
+        {
+          field: "preferingSabooRKS",
+          headerName:
+            "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
+          flex: 1,
           //   cellClassName: "phone-column--cell",
-          },
-          {
-              field: "advisorTimeAndAttention",
-              headerName: "Time & attention provided by the Service advisor",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-
-          {
-              field: "advisorsUnderstandingWorkingRequirement",
-              headerName: "Service advisors understanding of work required",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advisorsListenAbility",
-              headerName: "Service advisors ability to listen",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advisorsBehavior",
-              headerName: "Behavior of Service advisor",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-          //   {
-          //     field: "advisorsRecommendationOnWorkRequirement",
-          //     headerName: "Did the service personnel explain the issues and repairs needed clearly?",
-          //     flex: 1,
-          //   //   cellClassName: "phone-column--cell",
-          //   },
-
-            {
-              field: "advisorsRecommendationOnWorkRequirement",
-              headerName: "advisor's recommendation regarding the work required upon inspection of your car",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advancePerformingWork",
-              headerName: "Explanation of work to be performed in advance",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "workPerformedOnTheCar",
-              headerName: "Explanation about the work performed on the car",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "qualityOfWork",
-              headerName: "Quality of work performed",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-
-            {
-              field: "postServiceWashingAndCleaning",
-              headerName: "Washing & Cleanliness of the car post service",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "billExplanation",
-              headerName: "Explanation of charges in bill",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "transparencyPrice",
-              headerName: "Transparency in prices of services",
-              flex: 1,
-            //   cellClassName: "phone-column--cell",
-            },
-
-          {
-            field: "recommendation",
-            headerName: "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
-            flex: 1,
+        },
+        {
+          field: "waitTime",
+          headerName: "Wait time before a service advisor attended you",
+          flex: 1,
           //   cellClassName: "phone-column--cell",
-          },
-
-          // {
-          //   field: "explainationRegardingIssuesAndRepairs",
-          //   headerName: "Did the service personnel explain the issues and repairs needed clearly?",
-          //   flex: 1,
+        },
+        {
+          field: "advisorTimeAndAttention",
+          headerName: "Time & attention provided by the Service advisor",
+          flex: 1,
           //   cellClassName: "phone-column--cell",
-          // },
+        },
 
-          {
-            field: "date",
-            headerName: "Date",
-            width: 120,
-            flex: 1,
-          },
-          {
-            field: "time",
-            headerName: "Time",
-            flex: 1,
-            width: 120,
-          },
-        ]
-        // console.log("Columns before setting state:", column);
-        setCol(column);
+        {
+          field: "advisorsUnderstandingWorkingRequirement",
+          headerName: "Service advisors understanding of work required",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "advisorsListenAbility",
+          headerName: "Service advisors ability to listen",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "advisorsBehavior",
+          headerName: "Behavior of Service advisor",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        //   {
+        //     field: "advisorsRecommendationOnWorkRequirement",
+        //     headerName: "Did the service personnel explain the issues and repairs needed clearly?",
+        //     flex: 1,
+        //   //   cellClassName: "phone-column--cell",
+        //   },
 
-        console.log("Data from API:", res.data.data);
-        setData(res.data.data);
-        setLoading(false);
-    }catch (err) {
+        {
+          field: "advisorsRecommendationOnWorkRequirement",
+          headerName:
+            "advisor's recommendation regarding the work required upon inspection of your car",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "advancePerformingWork",
+          headerName: "Explanation of work to be performed in advance",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "workPerformedOnTheCar",
+          headerName: "Explanation about the work performed on the car",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "qualityOfWork",
+          headerName: "Quality of work performed",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+
+        {
+          field: "postServiceWashingAndCleaning",
+          headerName: "Washing & Cleanliness of the car post service",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "billExplanation",
+          headerName: "Explanation of charges in bill",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+        {
+          field: "transparencyPrice",
+          headerName: "Transparency in prices of services",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+
+        {
+          field: "recommendation",
+          headerName:
+            "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
+          flex: 1,
+          //   cellClassName: "phone-column--cell",
+        },
+
+        // {
+        //   field: "explainationRegardingIssuesAndRepairs",
+        //   headerName: "Did the service personnel explain the issues and repairs needed clearly?",
+        //   flex: 1,
+        //   cellClassName: "phone-column--cell",
+        // },
+
+        {
+          field: "date",
+          headerName: "Date",
+          width: 120,
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
+          flex: 1,
+          width: 120,
+        },
+      ];
+      // console.log("Columns before setting state:", column);
+      setCol(column);
+
+      console.log("Data from API:", res.data.data);
+      setData(res.data.data);
+      setLoading(false);
+    } catch (err) {
       setError(err);
       navigate("/login");
       setLoading(false);
     }
-  }, [ selectedFilter,navigate]); // Add dependencies here
+  }, [selectedFilter, navigate]); // Add dependencies here
 
   useEffect(() => {
     fetchData();
@@ -251,85 +253,95 @@ const Service = () => {
   useEffect(() => {
     async function fetchUniqueValues() {
       try {
-        setLoading(true); 
+        setLoading(true);
+
+        const token = localStorage.getItem("authTokenNexa");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
         const res = await axios.post(
           "https://saboo-nexa.onrender.com/filtersfeedbacks",
           {
             filter: selectedFilter,
             startDate: startDate,
             endDate: endDate,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        
-        let column =   [
-          { field: "id", headerName: "ID", flex: 0.5, width: 60, },
+
+        let column = [
+          { field: "id", headerName: "ID", flex: 0.5, width: 60 },
           {
             field: "name",
             headerName: "FirstName",
             flex: 1,
             width: 150,
-
           },
           {
-              field: "phone",
-              headerName: "Phone Number",
-              width: 150,
-              flex: 1,
-            },
-            {
-              field: "location",
-              headerName: "Location",
-              flex: 1,
-            },
-            {
-              field: "vehicleNumber",
-              headerName: "vehicle number",
-              flex: 1,
+            field: "phone",
+            headerName: "Phone Number",
+            width: 150,
+            flex: 1,
+          },
+          {
+            field: "location",
+            headerName: "Location",
+            flex: 1,
+          },
+          {
+            field: "vehicleNumber",
+            headerName: "vehicle number",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
+          },
           {
             field: "overAllPerformance",
-            headerName: "how would you rate overall performance of service center?",
+            headerName:
+              "how would you rate overall performance of service center?",
             flex: 1,
-          //   cellClassName: "phone-column--cell",
+            //   cellClassName: "phone-column--cell",
           },
           {
             field: "preferingSabooRKS",
-            headerName: "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
+            headerName:
+              "how  would you prefer Saboo RKS  which you visited rather than other service centers?",
             flex: 1,
-          //   cellClassName: "phone-column--cell",
+            //   cellClassName: "phone-column--cell",
           },
           {
             field: "waitTime",
             headerName: "Wait time before a service advisor attended you",
             flex: 1,
-          //   cellClassName: "phone-column--cell",
+            //   cellClassName: "phone-column--cell",
           },
           {
-              field: "advisorTimeAndAttention",
-              headerName: "Time & attention provided by the Service advisor",
-              flex: 1,
+            field: "advisorTimeAndAttention",
+            headerName: "Time & attention provided by the Service advisor",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
+          },
 
           {
-              field: "advisorsUnderstandingWorkingRequirement",
-              headerName: "Service advisors understanding of work required",
-              flex: 1,
+            field: "advisorsUnderstandingWorkingRequirement",
+            headerName: "Service advisors understanding of work required",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advisorsListenAbility",
-              headerName: "Service advisors ability to listen",
-              flex: 1,
+          },
+          {
+            field: "advisorsListenAbility",
+            headerName: "Service advisors ability to listen",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advisorsBehavior",
-              headerName: "Behavior of Service advisor",
-              flex: 1,
+          },
+          {
+            field: "advisorsBehavior",
+            headerName: "Behavior of Service advisor",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
+          },
           //   {
           //     field: "advisorsRecommendationOnWorkRequirement",
           //     headerName: "Did the service personnel explain the issues and repairs needed clearly?",
@@ -337,55 +349,57 @@ const Service = () => {
           //   //   cellClassName: "phone-column--cell",
           //   },
 
-            {
-              field: "advisorsRecommendationOnWorkRequirement",
-              headerName: "advisor's recommendation regarding the work required upon inspection of your car",
-              flex: 1,
+          {
+            field: "advisorsRecommendationOnWorkRequirement",
+            headerName:
+              "advisor's recommendation regarding the work required upon inspection of your car",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "advancePerformingWork",
-              headerName: "Explanation of work to be performed in advance",
-              flex: 1,
+          },
+          {
+            field: "advancePerformingWork",
+            headerName: "Explanation of work to be performed in advance",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "workPerformedOnTheCar",
-              headerName: "Explanation about the work performed on the car",
-              flex: 1,
+          },
+          {
+            field: "workPerformedOnTheCar",
+            headerName: "Explanation about the work performed on the car",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "qualityOfWork",
-              headerName: "Quality of work performed",
-              flex: 1,
+          },
+          {
+            field: "qualityOfWork",
+            headerName: "Quality of work performed",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
+          },
 
-            {
-              field: "postServiceWashingAndCleaning",
-              headerName: "Washing & Cleanliness of the car post service",
-              flex: 1,
+          {
+            field: "postServiceWashingAndCleaning",
+            headerName: "Washing & Cleanliness of the car post service",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "billExplanation",
-              headerName: "Explanation of charges in bill",
-              flex: 1,
+          },
+          {
+            field: "billExplanation",
+            headerName: "Explanation of charges in bill",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
-            {
-              field: "transparencyPrice",
-              headerName: "Transparency in prices of services",
-              flex: 1,
+          },
+          {
+            field: "transparencyPrice",
+            headerName: "Transparency in prices of services",
+            flex: 1,
             //   cellClassName: "phone-column--cell",
-            },
+          },
 
           {
             field: "recommendation",
-            headerName: "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
+            headerName:
+              "On scale of from 0 to 10 How likely are you to recommend Saboo RKS Service ",
             flex: 1,
-          //   cellClassName: "phone-column--cell",
+            //   cellClassName: "phone-column--cell",
           },
 
           // {
@@ -407,11 +421,11 @@ const Service = () => {
             flex: 1,
             width: 120,
           },
-        ]
+        ];
         // console.log("Columns before setting state:", column);
         setCol(column);
 
-        setData( res.data.data);
+        setData(res.data.data);
         setStartDate("");
         setEndDate("");
         setLoading(false);
@@ -479,13 +493,13 @@ const Service = () => {
   };
 
   const inputStyle = {
-    border: '1px solid #D3D3D3', // Change the color as needed
+    border: "1px solid #D3D3D3", // Change the color as needed
     borderRadius: "10px",
-    padding: '5px',
-    marginRight:'8px',
+    padding: "5px",
+    marginRight: "8px",
     height: "50px",
     // BorderColor:"grey"
- };
+  };
   return (
     <Box m="20px">
       <div
@@ -557,27 +571,29 @@ const Service = () => {
                   justifyContent: "flex-end", // Align items to the end (right)
                 }}
               >
-             
-               
-               <input
-                 type="date"
-                 value={startDate}
-                 onChange={(e) => handleStartDateChange(new Date(e.target.value))}
-                 placeholder="Select Start Date"
-                 style={inputStyle}
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) =>
+                    handleStartDateChange(new Date(e.target.value))
+                  }
+                  placeholder="Select Start Date"
+                  style={inputStyle}
                 />
                 <input
-                 type="date"
-                 value={endDate}
-                 onChange={(e) => handleEndDateChange(new Date(e.target.value))}
-                 placeholder="Select End Date"
-                 min={startDate}
-                 style={inputStyle}
+                  type="date"
+                  value={endDate}
+                  onChange={(e) =>
+                    handleEndDateChange(new Date(e.target.value))
+                  }
+                  placeholder="Select End Date"
+                  min={startDate}
+                  style={inputStyle}
                 />
               </div>
             )}
 
-            <Button
+            {/* <Button
               variant="contained"
               // color="primary"
               onClick={fetchData} // Attach fetchData here
@@ -595,13 +611,13 @@ const Service = () => {
               // onClick={fetchData}
             >
               Submit
-            </Button>
+            </Button> */}
           </Box>
         </div>
       </div>
 
       <Box
-        height="83vh"
+        height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -618,13 +634,7 @@ const Service = () => {
             whiteSpace: "normal", // Allows text to wrap
             lineHeight: "normal", // Adjusts line height for better readability
           },
-          //   "& .MuiDataGrid-columnHeader": {
-          //     height: "unset !important", // Removes the fixed height to allow for dynamic height based on content
-          //   },
-          //   "& .MuiDataGrid-columnHeaders": {
-          //     maxHeight: "168px !important", // Adjusts the maximum height of the headers to accommodate wrapped text
-          //   },
-           
+
           "& .MuiCheckbox-root": {
             color: `${colors.sabooAutoColors[600]} !important`,
           },
@@ -660,7 +670,6 @@ const Service = () => {
               backgroundColor: colors.grey[100],
             },
           },
-          
         }}
       >
         {loading ? (

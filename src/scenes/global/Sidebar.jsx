@@ -4,21 +4,11 @@ import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-// import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-// import PriceChangeIcon from "@mui/icons-material/PriceChange";
-// import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-// import CarCrashIcon from "@mui/icons-material/CarCrash";
-// import CarRepairIcon from "@mui/icons-material/CarRepair";
 import LogoutIcon from "@mui/icons-material/Logout";
-// import CorporateFareIcon from "@mui/icons-material/CorporateFare";
-// import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-// import SportsMotorsportsIcon from "@mui/icons-material/SportsMotorsports";
-// import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
-// import { TbDatabaseStar } from "react-icons/tb";
-import StorageIcon from '@mui/icons-material/Storage';
+import StorageIcon from "@mui/icons-material/Storage";
 import { SiSuzuki } from "react-icons/si";
 import { ImTruck } from "react-icons/im";
 import { BiSolidCarWash } from "react-icons/bi";
@@ -64,6 +54,7 @@ const Sidebar = () => {
       sx={{
         "& .pro-sidebar-inner": {
           background: `${colors.sabooAutoColors[600]} !important`,
+          height:"810px"
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -77,16 +68,19 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#db4f4a !important",
         },
+        "& .pro-inner-list-item":{
+          height:"10px"
+        },
         ".custom-submenu-title": {
           padding: "4px",
           color: "white",
+          
         },
         ".custom-submenu-title :hover": {
           color: "#db4f4a !important",
         },
 
         ".custom-submenu-icon": {
-          // marginRight: "100px",
           color: "white",
         },
         ".custom-submenu-icon :hover": {
@@ -94,9 +88,8 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
+      <ProSidebar collapsed={isCollapsed} >
+        <Menu iconShape="square" >
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -111,6 +104,7 @@ const Sidebar = () => {
                 justifyContent="space-between"
                 alignItems="center"
                 ml="15px"
+               
               >
                 <Typography variant="h3" color={colors.redAccent[100]}>
                   <img
@@ -152,11 +146,7 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <SubMenu
               title={
-                <CustomSubMenuTitle
-                 
-                  icon={<StorageIcon />}
-                  title="All Data"
-                />
+                <CustomSubMenuTitle icon={<StorageIcon />} title="All Data" />
               }
               selected={selected}
               setSelected={setSelected}
@@ -171,18 +161,18 @@ const Sidebar = () => {
               <Item
                 title="Nexa All Data"
                 to="/nexadata"
-                icon={<SiSuzuki style={{ color: 'black' }} />}
+                icon={<SiSuzuki style={{ color: "black" }} />}
                 selected={selected}
                 setSelected={setSelected}
               />
-               <Item
+              <Item
                 title="AutoZone All Data"
                 to="/autozonedata"
                 icon={<ImTruck />}
                 selected={selected}
                 setSelected={setSelected}
               />
-               <Item
+              <Item
                 title="Service FeedBack"
                 to="/service"
                 icon={<BiSolidCarWash />}
@@ -208,16 +198,17 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              
             </SubMenu>
           </Box>
-          <Item
-            title="Log Out"
-            to="/logout"
-            icon={<LogoutIcon />}
-            selected={selected}
-            setSelected={setSelected}
-          />
+          <Box marginTop="450px">
+            <Item
+              title="Log Out"
+              to="/logout"
+              icon={<LogoutIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
         </Menu>
       </ProSidebar>
     </Box>

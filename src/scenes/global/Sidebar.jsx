@@ -51,42 +51,38 @@ const Sidebar = () => {
 
   return (
     <Box
-      sx={{
-        "& .pro-sidebar-inner": {
-          background: `${colors.sabooAutoColors[600]} !important`,
-          height:"810px"
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#db4f4a !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#db4f4a !important",
-        },
-        "& .pro-inner-list-item":{
-          height:"10px"
-        },
-        ".custom-submenu-title": {
-          padding: "4px",
-          color: "white",
-          
-        },
-        ".custom-submenu-title :hover": {
-          color: "#db4f4a !important",
-        },
+    sx={{
+      "& .pro-sidebar-inner": {
+        background: `${colors.sabooAutoColors[600]} !important`,
+      },
+      "& .pro-icon-wrapper": {
+        backgroundColor: "transparent !important",
+      },
+      "& .pro-inner-item": {
+        padding: "5px 35px 5px 20px !important",
+      },
+      "& .pro-inner-item:hover": {
+        color: "#db4f4a !important",
+      },
+      "& .pro-menu-item.active": {
+        color: "#db4f4a !important",
+      },
+      ".custom-submenu-title": {
+        padding: "4px",
+        color: "white",
+      },
+      ".custom-submenu-title :hover": {
+        color: "#db4f4a !important",
+      },
 
-        ".custom-submenu-icon": {
-          color: "white",
-        },
-        ".custom-submenu-icon :hover": {
-          color: "#db4f4a !important",
-        },
-      }}
+      ".custom-submenu-icon": {
+        // marginRight: "100px",
+        color: "white",
+      },
+      ".custom-submenu-icon :hover": {
+        color: "#db4f4a !important",
+      },
+    }}
     >
       <ProSidebar collapsed={isCollapsed} >
         <Menu iconShape="square" >

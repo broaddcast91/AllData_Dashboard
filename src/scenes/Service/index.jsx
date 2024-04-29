@@ -470,10 +470,15 @@ const Service = () => {
   //   window.URL.revokeObjectURL(url);
   //   document.body.removeChild(a);
   // };
-  const dataRows = newData.map(row => Object.values(row));
+
+  // console.log(newData)
 
   const headers = [
-    "_id",
+    "id",
+    "name",
+    "phone",
+    "location",
+    "vehicleNumber",
     "overAllPerformance",
     "preferingSabooRKS",
     "waitTime",
@@ -489,20 +494,22 @@ const Service = () => {
     "billExplanation",
     "transparencyPrice",
     "recommendation",
-    "vehicleNumber",
-    "name",
-    "phone",
-    "location",
     "feedback",
-    "leadFrom",
+    // "leadFrom",
     "date",
     "time",
-    "isDeleted",
-    "createdAt",
-    "updatedAt",
-    "__v"
+   
+    // "isDeleted",
+    // "createdAt",
+    // "updatedAt",
+    // "__v"
   ];
   
+  const dataRows = newData.map(row => {
+    // Exclude specific keys
+    const { _id, isDeleted, createdAt, updatedAt, __v, leadFrom, ...filteredRow } = row;
+    return headers.map(header => filteredRow.hasOwnProperty(header) ? filteredRow[header] : '');
+  });
   const handleDownloadXLSX = () => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -525,7 +532,7 @@ const Service = () => {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "contact_us(Arena).xlsx";
+    a.download = "Service FeedBack.xlsx";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
@@ -780,7 +787,7 @@ const Service = () => {
                const stringLength = params.model.feedback.length +5;
                const extraHeight = stringLength > maxLength ? (stringLength - maxLength) + extraHeightPerChar : 0;
                const rowHeight =  extraHeight>150? 170: extraHeight;
-               console.log("Row Height:", rowHeight, "String Length:", stringLength , "sting:" ,params.model.feedback );
+              //  console.log("Row Height:", rowHeight, "String Length:", stringLength , "sting:" ,params.model.feedback );
                return rowHeight;
             }
             return baseHeight; // Default height for rows without feedback

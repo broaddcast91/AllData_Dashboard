@@ -786,8 +786,8 @@ const Service = () => {
             if (params && params.model && params.model.feedback) {
                const stringLength = params.model.feedback.length +5;
                const extraHeight = stringLength > maxLength ? (stringLength - maxLength) + extraHeightPerChar : extraHeightPerChar + 70;
-              //  const rowHeight =  extraHeight>150? 170: extraHeight;
-               console.log("Row Height:", rowHeight, "String Length:", stringLength , "sting:" ,params.model.feedback );
+               const rowHeight =  extraHeight>150? 170: extraHeight;
+              //  console.log("Row Height:", rowHeight, "String Length:", stringLength , "sting:" ,params.model.feedback );
                return rowHeight;
             }
             return baseHeight; // Default height for rows without feedback

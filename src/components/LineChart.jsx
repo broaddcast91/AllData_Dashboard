@@ -10,36 +10,37 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   return (
     <ResponsiveLine
       data={data}
+      width={800} // Pass width prop to ResponsiveLine
       theme={{
         axis: {
           domain: {
             line: {
-              stroke: colors.grey[100],
+              stroke: colors.primary[1002],
             },
           },
           legend: {
             text: {
-              fill: colors.grey[100],
+              fill: colors.primary[1002],
             },
           },
           ticks: {
             line: {
-              stroke: colors.grey[100],
+              stroke: colors.primary[1002],
               strokeWidth: 1,
             },
             text: {
-              fill: colors.grey[100],
+              fill: colors.primary[1002],
             },
           },
         },
         legends: {
           text: {
-            fill: colors.grey[100],
+            fill: colors.primary[1002],
           },
         },
         tooltip: {
           container: {
-            color: colors.primary[500],
+            color: colors.primary[1002],
           },
         },
       }}
@@ -48,9 +49,9 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       xScale={{ type: 'point' }}
       yScale={{
         type: 'linear',
-        min: 'auto',
-        max: 'auto',
-        stacked: true,
+        min: 0, // Set the minimum y value to 0
+        max: 'auto', // Automatically determine the maximum y value
+        stacked: false, // Set to false to plot individual y values correctly
         reverse: false,
       }}
       yFormat=' >-.2f'

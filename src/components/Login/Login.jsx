@@ -50,7 +50,7 @@ const Login = () => {
           body: JSON.stringify({ email, password }),
         }
       );
-      const response2 = await fetch("https://saboo-nexa.onrender.com/login", {
+      const response2 = await fetch(" https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

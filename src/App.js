@@ -17,7 +17,8 @@ import Login from './components/Login/Login';
 import SabooGroups from './scenes/SabooGroups'
 import NexaAllData from './scenes/nexa';
 import AutoZone from './scenes/AutoZone';
-import Service from './scenes/Service';
+// import Service from './scenes/Service';
+import Dashboard from './scenes/Dashboard';
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -48,6 +49,9 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
               <Route path='/' element={<Login />} />
+              <Route path='/dashboard' element={<div style={{ backgroundColor:  '#1d3a8a' ,minHeight: '100vh' }}>
+      <Dashboard />
+    </div>} />
               {/* <Route path='/popup' element={<Popup />} /> */}
               {/* <Route path='/onroadprice' element={<OnRoadPrice />} /> */}
               {/* <Route path='/corporates' element={<Corporates />} /> */}
@@ -56,7 +60,7 @@ function App() {
               <Route path='/alldata' element={<ArenaAllData />} />
               <Route path='/nexadata' element={<NexaAllData />} />
               <Route path='/autozonedata' element={<AutoZone />} />
-              <Route path='/service' element={<Service />} />
+              {/* <Route path='/service' element={<Service />} /> */}
               {/* <Route path='/bookaservice' element={<BookAService />} /> */}
               {/* <Route path='/drvingschool' element={<DrvingSchool />} /> */}
               <Route path='/saboogroups' element={<SabooGroups />} />

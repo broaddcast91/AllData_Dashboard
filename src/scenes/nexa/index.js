@@ -44,7 +44,7 @@ const AllData = () => {
           return;
         }
         const res = await axios.get(
-          "https://saboo-nexa.onrender.com/allData",
+          " https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/allData",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -134,7 +134,7 @@ const AllData = () => {
         
         
         const res = await axios.post(
-          "https://saboo-nexa.onrender.com/findDataInRangeInAllCollections",
+          "https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/findDataInRangeInAllCollections",
           {
             startDate: startDate,
             endDate: endDate,
@@ -217,7 +217,7 @@ const AllData = () => {
         return;
       }
       const res = await axios.get(
-        "https://saboo-nexa.onrender.com/allData",
+        " https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/allData",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -291,7 +291,7 @@ const AllData = () => {
         return;
       }
       const res = await axios.get(
-        "https://saboo-nexa.onrender.com/findDuplicatesInAllCollections",
+        " https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/findDuplicatesInAllCollections",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -346,7 +346,7 @@ const AllData = () => {
         return;
       }
       const res = await axios.get(
-        `https://saboo-nexa.onrender.com/findUniqueEntriesInAllCollections`,
+        ` https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/findUniqueEntriesInAllCollections`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

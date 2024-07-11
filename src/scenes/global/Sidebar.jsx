@@ -11,7 +11,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import StorageIcon from "@mui/icons-material/Storage";
 import { SiSuzuki } from "react-icons/si";
 import { ImTruck } from "react-icons/im";
-import { BiSolidCarWash } from "react-icons/bi";
+// import { BiSolidCarWash } from "react-icons/bi";
 
 const CustomSubMenuTitle = ({ title, icon }) => (
   <Tooltip title={title} placement="right">
@@ -168,13 +168,13 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              <Item
+              {/* <Item
                 title="Service FeedBack"
                 to="/service"
                 icon={<BiSolidCarWash />}
                 selected={selected}
                 setSelected={setSelected}
-              />
+              /> */}
             </SubMenu>
 
             <SubMenu

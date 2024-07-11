@@ -76,12 +76,12 @@ const Service = () => {
         return;
       }
       const res = await axios.post(
-        "https://saboo-nexa.onrender.com/filtersfeedbacks",
+        "https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/filtersfeedbacks",
        {
           filter: selectedFilter,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authoriz2ation: `Bearer ${token}` },
         }
       );
 
@@ -264,7 +264,7 @@ const Service = () => {
           return;
         }
         const res = await axios.post(
-          "https://saboo-nexa.onrender.com/filtersfeedbacks",
+          " https://nexa-backend-git-main-saboo-nexas-projects.vercel.app/filtersfeedbacks",
           {
             filter: selectedFilter,
             startDate: startDate,

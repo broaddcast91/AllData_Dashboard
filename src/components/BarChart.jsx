@@ -15,43 +15,58 @@ const BarChart = ({ isDashboard = false }) => {
         axis: {
           domain: {
             line: {
-              stroke: colors.grey[100],
+              stroke: colors.primary[1002],
             },
           },
           legend: {
             text: {
-              fill: colors.grey[100],
+              fill: colors.primary[1002],
             },
           },
           ticks: {
             line: {
-              stroke: colors.grey[100],
+              stroke: colors.primary[1002],
               strokeWidth: 1,
             },
             text: {
-              fill: colors.grey[100],
+              fill: colors.primary[1002],
             },
           },
         },
         legends: {
           text: {
-            fill: colors.grey[100],
+            fill: colors.primary[1002],
           },
         },
       }}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+      keys={[
+        // "Driving School",
+        // "Corporate",
+        // "Accessories",
+        // "Finance",
+        // "Insurance",
+        "Arena",
+        "Nexa",
+        "saboo groups",
+        // "24/7 Service",
+        "Autozone",
+        // "offers",
+        // "Showroom",
+        // "Test Drive",
+      ]}
+      // keys ={["Grand Vitara","Fronx","Ciaz","Ignis","Baleno","Invicto","Jimny","Xl6"]}
+      indexBy="Month"
+      margin={{ top: 30, right: 130, bottom: 35, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: "nivo" }}
+      colors={{ scheme: "paired" }}
       defs={[
         {
           id: "dots",
           type: "patternDots",
           background: "inherit",
-          color: "#38bcb2",
+          color: "#ff0000",
           size: 4,
           padding: 1,
           stagger: true,

@@ -24,6 +24,7 @@ import LineChart from "../../components/LineChart";
 
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
+
 const allDataValue = rowFirst.AllData;
 let Service = rowFirst.Service + rowFirst["24/7 Service"];
 // Log the value to the console

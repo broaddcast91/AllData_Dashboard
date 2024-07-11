@@ -29,6 +29,7 @@ const allDataValue = rowFirst.AllData;
 // let Service = rowFirst.Service + rowFirst["24/7 Service"];
 // Log the value to the console
 console.log("AllData value:", allDataValue);
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

@@ -18,7 +18,7 @@ import SabooGroups from './scenes/SabooGroups'
 import NexaAllData from './scenes/nexa';
 import AutoZone from './scenes/AutoZone';
 // import Service from './scenes/Service';
-import Dashboard from './scenes/Dashboard';
+import Dashboard from "./scenes/Dashboard/Dashboard";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);

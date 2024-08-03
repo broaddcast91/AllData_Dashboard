@@ -651,6 +651,7 @@ const AllData = () => {
             components={{ Toolbar: CustomToolbar }}
             sx={{
               backgroundColor: "white", // Set the background color to white
+              fontSize: 15,
             }}
           />
         )}

@@ -19,6 +19,7 @@ import NexaAllData from './scenes/nexa';
 import AutoZone from './scenes/AutoZone';
 // import Service from './scenes/Service';
 import Dashboard from "./scenes/Dashboard/Dashboard";
+import Commercial from './scenes/Commercial/Commercial';
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -64,6 +65,7 @@ function App() {
               {/* <Route path='/bookaservice' element={<BookAService />} /> */}
               {/* <Route path='/drvingschool' element={<DrvingSchool />} /> */}
               <Route path='/saboogroups' element={<SabooGroups />} />
+              <Route path='/commercial' element={<Commercial/>} />
               <Route path='/logout' element={<Logout />} />
               <Route path='/login' element={<Login />} />
             </Routes>

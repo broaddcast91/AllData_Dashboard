@@ -41,7 +41,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://arena-backend-zj42.onrender.com/login",
+        "https://arena-backend-git-main-arenas-projects.vercel.app/login",
         {
           method: "POST",
           headers: {
@@ -65,14 +65,22 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      const response4 = await fetch("https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
       const responseData = await response.json();
  const responseData2 = await response2.json();
  const responseData3 = await response3.json();
+ const responseData4 = await response4.json();
       if (response.ok) {
         if (responseData.status) {
           const token = responseData.data.token;
           localStorage.setItem("authToken", token);
-          window.location.href = "/alldata";
+          window.location.href = "/dashboard";
         } else {
           // Handle unsuccessful login, e.g., show an error message.
           setError("Login failed: " + responseData.message);
@@ -100,6 +108,13 @@ const Login = () => {
         if (responseData3.status) {
           const token = responseData3.data.token;
           localStorage.setItem("authTokenAutozone", token);
+         
+        } 
+      } 
+      if (response4.ok) {
+        if (responseData4.status) {
+          const token = responseData4.data.token;
+          localStorage.setItem("authTokenCommercial", token);
          
         } 
       } 

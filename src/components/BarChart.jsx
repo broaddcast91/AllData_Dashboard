@@ -7,6 +7,14 @@ const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const customColors = {
+    Arena: "hsl(224, 66%, 44%)",
+    Nexa: "hsl(0, 0%, 0%)",
+    Autozone: "hsl(42, 70%, 50%)",
+    // "saboo groups": "hsl(133, 70%, 50%)",
+    Commercial: "#FF2922",
+  };
+
   return (
     <ResponsiveBar
       data={data}
@@ -47,8 +55,8 @@ const BarChart = ({ isDashboard = false }) => {
         // "Insurance",
         "Arena",
         "Nexa",
-        "saboo groups",
-        // "24/7 Service",
+        // "saboo groups",
+      "Commercial",
         "Autozone",
         // "offers",
         // "Showroom",
@@ -60,27 +68,27 @@ const BarChart = ({ isDashboard = false }) => {
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: "paired" }}
-      defs={[
-        {
-          id: "dots",
-          type: "patternDots",
-          background: "inherit",
-          color: "#ff0000",
-          size: 4,
-          padding: 1,
-          stagger: true,
-        },
-        {
-          id: "lines",
-          type: "patternLines",
-          background: "inherit",
-          color: "#eed312",
-          rotation: -45,
-          lineWidth: 6,
-          spacing: 10,
-        },
-      ]}
+          colors={({ id }) => customColors[id]} // Apply custom colors
+      // defs={[
+      //   {
+      //     id: "dots",
+      //     type: "patternDots",
+      //     background: "inherit",
+      //     color: "#ff0000",
+      //     size: 4,
+      //     padding: 1,
+      //     stagger: true,
+      //   },
+      //   {
+      //     id: "lines",
+      //     type: "patternLines",
+      //     background: "inherit",
+      //     color: "#eed312",
+      //     rotation: -45,
+      //     lineWidth: 6,
+      //     spacing: 10,
+      //   },
+      // ]}
       borderColor={{
         from: "color",
         modifiers: [["darker", "1.6"]],
@@ -138,6 +146,9 @@ const BarChart = ({ isDashboard = false }) => {
       barAriaLabel={function (e) {
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
+      animate={true}
+      motionConfig="gentle" // Change to gentle for a smoother animation
+      layout="horizontal" // Change to horizontal layout
     />
   );
 };

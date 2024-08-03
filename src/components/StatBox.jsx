@@ -1,36 +1,38 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import { Box, Typography , } from "@mui/material";
+// import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
-const StatBox = ({ title, subtitle, icon, progress, increase }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+
+const StatBox = ({ title, subtitle, icon, progress, increase , textColor}) => {
+  // const theme = useTheme();
+  // const colors = tokens(theme.palette.mode);
 
   return (
-    <Box width="100%" m="0 30px">
+    <Box width="100%" height={"120px"} m="-6px 30px ">
       <Box display="flex" justifyContent="space-between">
-        <Box>
-          {icon}
+        <Box sx={{marginTop:"5px", width:"170px" ,height:"50px", }}>
+         {/* <Typography sx={{  fontSize: "24px"}}>  {icon}</Typography> */}
           <Typography
             variant="h4"
-            fontWeight="bold"
-            sx={{ color: colors.grey[700] }}
+            // fontWeight="bold"
+            sx={{ color: 'black' , my:"10px" , marginLeft:"10px" }}
           >
             {title}
           </Typography>
         </Box>
-        <Box>
-          <ProgressCircle progress={progress} />
+         <Box sx={{marginTop:"20px" , marginRight:"8px"}} >
+          {/* {console.log(textColor)} */}
+         <ProgressCircle progress={progress} textColor={textColor} />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between" mt="2px">
-        <Typography variant="h5" sx={{ color: "#FF0000" }}>
+      <Box display="flex" justifyContent="space-between" >
+        <Typography variant="h3" sx={{ color: "black", mt:"-20px", height:"50px",width:"40px",marginLeft:"10px",fontWeight: " Bold" ,    }}>
           {subtitle}
         </Typography>
         <Typography
           variant="h5"
           fontStyle="italic"
-          sx={{ color: "#FF0000" }}
+          sx={{ color:"black", marginRight:"20px" }}
         >
           {increase}
         </Typography>

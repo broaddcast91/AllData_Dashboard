@@ -43,7 +43,7 @@ const AllData = () => {
           return;
         }
         const res = await axios.get(
-          "https://arena-backend-zj42.onrender.com/allData",
+          " https://arena-backend-git-main-arenas-projects.vercel.app/allData",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -133,7 +133,7 @@ const AllData = () => {
       }
 
       const res = await axios.post(
-        'https://arena-backend-zj42.onrender.com/findDataInRangeInAllCollections',
+        'https://arena-backend-git-main-arenas-projects.vercel.app/findDataInRangeInAllCollections',
         {
           startDate: startDate,
           endDate: endDate,
@@ -216,7 +216,7 @@ const AllData = () => {
           return;
         }
       const res = await axios.get(
-        'https://arena-backend-zj42.onrender.com/allData',
+        'https://arena-backend-git-main-arenas-projects.vercel.app/allData',
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -289,7 +289,7 @@ const AllData = () => {
         return;
       }
       const res = await axios.get(
-        'https://arena-backend-zj42.onrender.com/findDuplicatesInAllCollections',
+        'https://arena-backend-git-main-arenas-projects.vercel.app/findDuplicatesInAllCollections',
          {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -344,7 +344,7 @@ const AllData = () => {
       }
 
       const res = await axios.get(
-        `https://arena-backend-zj42.onrender.com/findUniqueEntriesInAllCollections`,
+        `https://arena-backend-git-main-arenas-projects.vercel.app/findUniqueEntriesInAllCollections`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -626,6 +626,7 @@ const CustomToolbar = () => {
             components={{ Toolbar: CustomToolbar }}
             sx={{
               backgroundColor: "white", // Set the background color to white
+              fontSize: 15,
             }}
           />
         )}

@@ -22,7 +22,7 @@ import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TextField from "@mui/material/TextField";
 
-const AutoZone = () => {
+const Commercial = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -38,13 +38,13 @@ const AutoZone = () => {
     async function fetchData() {
       try {
         setLoading(true);
-        const token = localStorage.getItem("authTokenAutozone");
+        const token = localStorage.getItem("authTokenCommercial");
         if (!token) {
            navigate("/login");
           return;
         }
         const res = await axios.get(
-          "https://autozone-backend.onrender.com/allData",
+          "https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/allData",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -116,14 +116,14 @@ const AutoZone = () => {
   async function fetchUniqueValues() {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authTokenAutozone");
+      const token = localStorage.getItem("authTokenCommercial");
       if (!token) {
          navigate("/login");
         return;
       }
 
       const res = await axios.post(
-        'https://autozone-backend.onrender.com/findDataInRangeInAllCollections',
+        'https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/findDataInRangeInAllCollections',
         {
           startDate: startDate,
           endDate: endDate,
@@ -188,13 +188,13 @@ const AutoZone = () => {
   const handleReset = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authTokenAutozone");
+      const token = localStorage.getItem("authTokenCommercial");
         if (!token) {
            navigate("/login");
           return;
         }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/allData',
+        'https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/allData',
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -251,13 +251,13 @@ const AutoZone = () => {
   const handleDup = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authTokenAutozone");
+      const token = localStorage.getItem("authTokenCommercial");
       if (!token) {
          navigate("/login");
         return;
       }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/findDuplicatesInAllCollections',
+        'https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/findDuplicatesInAllCollections',
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -300,14 +300,14 @@ const AutoZone = () => {
   const uniqueEntries = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("authTokenAutozone");
+      const token = localStorage.getItem("authTokenCommercial");
       if (!token) {
          navigate("/login");
         return;
       }
 
       const res = await axios.get(
-        `https://autozone-backend.onrender.com/findUniqueEntriesInAllCollections`,
+        `https://commercial-backend-git-main-saboo-commercials-projects.vercel.app/findUniqueEntriesInAllCollections`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -419,7 +419,7 @@ const CustomToolbar = () => {
           justifyContent: "space-between",
         }}
       >
-     <Header title="AutoZone All Data" subtitle='data from all the forms'  />
+     <Header title="Commercial All Data" subtitle='data from all the forms'  />
         <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ marginRight: "10px" }}>
             <TextField
@@ -594,10 +594,10 @@ const CustomToolbar = () => {
             }))}
             components={{ Toolbar: CustomToolbar }}
             sx={{
-              backgroundColor: "white", // Set the background color to white
-              fontSize: 15,
-              
-            }}
+                backgroundColor: "white", // Set the background color to white
+                fontSize: 15,
+                
+              }}
           />
         )}
       </Box>
@@ -606,6 +606,6 @@ const CustomToolbar = () => {
   );
 };
 
-export default AutoZone;
+export default Commercial;
 
 

@@ -29,14 +29,20 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
     <Tooltip title={title} placement="right">
       <MenuItem
-        active={selected === title}
+        active={selected === to}
         style={{
-          color: colors.redAccent[100],
+          color: selected === to ? "#da251d" : colors.redAccent[100],
         }}
-        onClick={() => setSelected(title)}
-        icon={icon}
+        onClick={() => setSelected(to)}
+        icon={
+          <span style={{ backgroundcolor: selected === to ? "#da251d" : "inherit" ,
+          fontSize :"18px"
+          }}>
+            {icon}
+          </span>
+        }
       >
-        <Typography>{title}</Typography>
+        <Typography sx={{fontSize:'18px'}}>{title}</Typography>
         <Link to={to} />
       </MenuItem>
     </Tooltip>
@@ -148,23 +154,30 @@ const Sidebar = () => {
               setSelected={setSelected}
             >
               <Item
-                title="Arena All Data"
+                title="Arena"
                 to="/alldata"
                 icon={<SiSuzuki />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title="Nexa All Data"
+                title="Nexa"
                 to="/nexadata"
                 icon={<SiSuzuki style={{ color: "black" }} />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title="AutoZone All Data"
+                title="AutoZone"
                 to="/autozonedata"
                 icon={<ImTruck />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+               <Item
+                title="Commerial"
+                to="/commercial"
+                icon={<SiSuzuki style={{ color: "red" }} />}
                 selected={selected}
                 setSelected={setSelected}
               />

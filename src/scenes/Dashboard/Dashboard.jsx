@@ -6,7 +6,7 @@ import { mockTransactions } from "../../data/mockData";
 // import WebAssetIcon from "@mui/icons-material/WebAsset";
 // import { FaRoad } from "react-icons/fa";
 // import { BiSolidCarWash } from "react-icons/bi";
-import MyPieChart from "../../components/MyPieChart";
+// import MyPieChart from "../../components/MyPieChart";
 import { rowFirst } from "../../data/mockData";
 // import { FaIndianRupeeSign } from "react-icons/fa6";
 // let formData = JSON.stringify(rowFirst, null, 2)
@@ -21,14 +21,16 @@ import { rowFirst } from "../../data/mockData";
 
 // import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
+import BarChart2 from "../../components/BarChart2";
 
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 
-const allDataValue = rowFirst.AllData;
+const allDataValue = rowFirst.AllDataCount;
 // let Service = rowFirst.Service + rowFirst["24/7 Service"];
 // Log the value to the console
-console.log("AllData value:", allDataValue);
+console.log(" rowFirst ", rowFirst);
+console.log(" allDataValue ", allDataValue);
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -92,23 +94,9 @@ const Dashboard = () => {
               Welcome to dashboard
             </Typography>
           </Box>
-          {/* <Header title="DASHBOARD" subtitle="Welcome to your dashboard" /> */}
+         
 
-          {/* <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "5px 10px",
-              marginRight:"20px"
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
+        
         </Box>
 
         {/* GRID & CHARTS */}
@@ -123,7 +111,7 @@ const Dashboard = () => {
 
           <Box
             gridColumn="span 3"
-            backgroundColor="white" 
+            backgroundColor="white"
             sx={{ borderRadius: "20px" }}
             display="flex"
             alignItems="center"
@@ -132,52 +120,12 @@ const Dashboard = () => {
           >
             <StatBox
               title="Arena"
-              subtitle={rowFirst.Arena}
-              progress={rowFirst.Arena / allDataValue}
-              increase={Math.floor((rowFirst.Arena / allDataValue) * 100) + "%"}
+              subtitle={rowFirst.arenaCount}
+              progress={rowFirst.arenaCount / allDataValue}
+              increase={
+                Math.floor((rowFirst.arenaCount / allDataValue) * 100) + "%"
+              }
               // icon={<WebAssetIcon fontSize="39px" sx={{ color: "black" }} />}
-            />
-          </Box>
-          <Box
-            gridColumn="span 3"
-            backgroundColor="white"
-            sx={{ borderRadius: "10px" }}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            onClick={() => handleBoxClick("/onroadprice")} // Navigate to /popup on click
-          >
-            <StatBox
-              subtitle={rowFirst["Saboo Groups"]}
-              title="Saboo Groups"
-              progress={rowFirst["Saboo Groups"] / allDataValue}
-              increase={
-                Math.floor((rowFirst["Saboo Groups"] / allDataValue) * 100) +
-                "%"
-              }
-              // icon={<FaRoad sx={{ color: "black" }} />}
-            />
-          </Box>
-
-          <Box
-            gridColumn="span 3"
-            backgroundColor="white"
-            sx={{ borderRadius: "10px" }}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            onClick={() => handleBoxClick("/bookaservice")}
-          >
-            <StatBox
-              subtitle={rowFirst.Autozone}
-              title="Autozone"
-              progress={rowFirst.Autozone / allDataValue}
-              increase={
-                Math.floor((rowFirst.Autozone / allDataValue) * 100) + "%"
-              }
-              // icon={
-              //   <BiSolidCarWash sx={{ color: "black", fontSize: "26px" }} />
-              // }
             />
           </Box>
           <Box
@@ -191,14 +139,56 @@ const Dashboard = () => {
           >
             <StatBox
               title="Nexa"
-              subtitle={rowFirst.Nexa}
-              progress={rowFirst.Nexa / allDataValue}
+              subtitle={rowFirst.nexaCount}
+              progress={rowFirst.nexaCount / allDataValue}
               increase={
-                Math.floor((rowFirst.Nexa / allDataValue) * 100) + "%"
+                Math.floor((rowFirst.nexaCount / allDataValue) * 100) + "%"
               }
               // icon={
               //   <FaIndianRupeeSign sx={{ color: "black", fontSize: "36px" }} />
               // }
+            />
+          </Box>
+          <Box
+            gridColumn="span 3"
+            backgroundColor="white"
+            sx={{ borderRadius: "10px" }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            onClick={() => handleBoxClick("/bookaservice")}
+          >
+            <StatBox
+              subtitle={rowFirst.autozoneCount}
+              title="Autozone"
+              progress={rowFirst.autozoneCount / allDataValue}
+              increase={
+                Math.floor((rowFirst.autozoneCount / allDataValue) * 100) + "%"
+              }
+              // icon={
+              //   <BiSolidCarWash sx={{ color: "black", fontSize: "26px" }} />
+              // }
+            />
+          </Box>
+
+          <Box
+            gridColumn="span 3"
+            backgroundColor="white"
+            sx={{ borderRadius: "10px" }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            onClick={() => handleBoxClick("/onroadprice")} // Navigate to /popup on click
+          >
+            <StatBox
+              subtitle={rowFirst.commercialCount}
+              title="Commercial"
+              progress={rowFirst.commercialCount / allDataValue}
+              increase={
+                Math.floor((rowFirst.commercialCount / allDataValue) * 100) +
+                "%"
+              }
+              // icon={<FaRoad sx={{ color: "black" }} />}
             />
           </Box>
 
@@ -207,12 +197,12 @@ const Dashboard = () => {
             gridColumn="span 7"
             gridRow="span 2"
             backgroundColor="white"
-            sx={{ borderRadius: "10px" }}
+            sx={{ borderRadius: "10px", overflow: "hidden" }}
           >
             <Box
               mt="10px"
               p="0 20px"
-              display="flex "
+              display="flex"
               justifyContent="space-between"
               alignItems="center"
             >
@@ -222,21 +212,15 @@ const Dashboard = () => {
                   fontWeight="400"
                   color={colors.primary[1002]}
                 >
-                  MONTHLY Lead CREATION
+                  MONTHLY LEAD CREATION
                 </Typography>
-                {/* <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                59,342.32
-              </Typography> */}
               </Box>
             </Box>
-            <Box height="230px" m="-20px -60px 0 0">
+            <Box height="230px" mr="10px" overflow="auto">
               <LineChart isDashboard={true} />
             </Box>
           </Box>
+
           <Box
             gridColumn="span 5"
             gridRow="span 2"
@@ -260,7 +244,54 @@ const Dashboard = () => {
                 Recent Leads
               </Typography>
             </Box>
-
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              borderBottom={`1px solid ${colors.primary[1002]}`}
+              p="15px"
+              sx={{
+                backgroundColor: "#d2d8e8",
+                borderRadius: "15px",
+                mt: "10px",
+              }}
+            >
+              <Typography
+                color={colors.primary[1002]}
+                variant="body2"
+                fontWeight="600"
+                // sx={{ flex: 1 }}
+              >
+                Phone
+              </Typography>
+              <Typography
+                color={colors.primary[1002]}
+                variant="body2"
+                fontWeight="600"
+                // sx={{ flex: 1, marginRight: "19px" }}
+              >
+                LeadFrom
+              </Typography>
+              <Typography
+                color={colors.primary[1002]}
+                variant="body2"
+                fontWeight="600"
+                // backgroundColor="red"
+                // alignItems="center"
+                // // marginRight="10px"
+                // sx={{ flex: 1  , marginRight: "19px" }}
+              >
+                Date
+              </Typography>
+              <Typography
+                color={colors.primary[1002]}
+                variant="body2"
+                fontWeight="600"
+                // sx={{ flex: 1 }}
+              >
+                Time
+              </Typography>
+            </Box>
             {mockTransactions.map((transaction, i) => (
               <Box
                 key={`${transaction.phone}`}
@@ -282,19 +313,13 @@ const Dashboard = () => {
                     {transaction.user}
                   </Typography>
                 </Box>
-                <Box color={colors.primary[1002]}>{transaction.leadFrom} </Box>
+                <Box color={colors.primary[1002]}>{transaction.leadFrom}</Box>
                 <Box color={colors.primary[1002]}>{transaction.date}</Box>
                 <Box color={colors.primary[1002]}>{transaction.time}</Box>
-                {/* <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                {transaction.phone}
-              </Box> */}
               </Box>
             ))}
           </Box>
+
 
           {/* ROW 3 */}
           <Box
@@ -309,20 +334,21 @@ const Dashboard = () => {
               fontWeight="600"
               color={colors.primary[1002]}
             >
-              Forms Data
+              Comparison
             </Typography>
             <Box
               display="flex"
               flexDirection="column"
               alignItems="center"
               mt="-70px"
-              // mx={"20px"}
               height={"320px"}
-              // width={"150px"}
             >
-              <MyPieChart />
+              <Box sx={{ height: "150px", marginTop: "10px" }}>
+                <BarChart2 />
+              </Box>
             </Box>
           </Box>
+
           <Box
             gridColumn="span 8"
             gridRow="span 2"
@@ -338,7 +364,7 @@ const Dashboard = () => {
               {" "}
               Vehicle Enquiries{" "}
             </Typography>
-            <Box height="230px" mt="-20px">
+            <Box height="240px" mt="-20px" overflow="auto">
               <BarChart isDashboard={true} />
             </Box>
           </Box>

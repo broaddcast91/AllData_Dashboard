@@ -1,16 +1,18 @@
-import { Box, Button } from '@mui/material';
-// import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from '../../theme';
+import {
+  Box,
+  Button,
+  useTheme,
+  Menu,
+  MenuItem,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import LooksOneIcon from '@mui/icons-material/LooksOne';
-import Header from '../../components/Header';
-import { useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-//import date range picker files
-// import { DemoContainer } from '@mui/x-da ate-pickers-pro/DateRangePicker';
-
+import { tokens } from "../../theme";
+import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -18,26 +20,27 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
-import TextField from "@mui/material/TextField";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import LoadingComponent from '../Loading'; // Import the loading component
 
-const AutoZone = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
+const AllData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
+  const [col, setCol] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [selectedView, setSelectedView] = useState(""); // New state for selected view
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [activeButton, setActiveButton] = useState(""); // State to track active button
   const navigate = useNavigate();
-  const [col, setCol] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+
         const token = localStorage.getItem("authTokenAutozone");
         if (!token) {
            navigate("/login");
@@ -50,12 +53,16 @@ const AutoZone = () => {
           }
         );
 
-        const unifiedData = res.data.data.map((item) => ({
-            ...item,
-            Name: item.Last_Name || item.name,
-            "Phone Number": item.number || item.mobile || item.phone,
-          }));
+        const unifiedData = res.data.data.map((item) => {
+          const { Last_Name, name, Phone, Mobile, phone,number, model, ...rest } = item;
   
+          return {
+            ...rest,
+            Name: Last_Name || name,
+            "Phone Number": Phone || Mobile || phone|| number,
+            model: model ? model.toUpperCase() : model,
+          };
+        });
 
         setCol([
           { field: "id", headerName: "ID", flex: 0.5 },
@@ -71,6 +78,13 @@ const AutoZone = () => {
             flex: 1,
             cellClassName: "phone-column--cell",
           },
+          {
+            field: "vehicle",
+            headerName: "Model",
+            flex: 1,
+            cellClassName: "phone-column--cell",
+          },
+         
           {
             field: "leadFrom",
             headerName: "Lead From",
@@ -90,9 +104,13 @@ const AutoZone = () => {
 
         setData(unifiedData);
         setLoading(false);
+        setSelectedView(""); // Set selected view
+        setLoading(false);
+        setStartDate("");
+        setEndDate("");
       } catch (err) {
         setError(err);
-        window.alert(err)
+        window.alert("token expired");
         navigate("/login");
         setLoading(false);
       }
@@ -104,107 +122,126 @@ const AutoZone = () => {
     return { ...item, id: index + 1 };
   });
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
+  // const handleStartDateChange = (event) => {
+  //   setStartDate(event.target.value);
+  // };
+
+  // const handleEndDateChange = (event) => {
+  //   setEndDate(event.target.value);
+  // };
+
+  // useEffect(() => {
+  //   const fetchUniqueValues = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const token = localStorage.getItem("authTokenAutozone");
+  //       if (!token) {
+  //         navigate("/login");
+  //         return;
+  //       }
+        
+        
+  //       const res = await axios.post(
+  //         'https://arena-backend-git-main-arenas-projects.vercel.app/findDataInRangeInAllCollections',
+  //         {
+  //           startDate: startDate,
+  //           endDate: endDate,
+  //         },
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       );
+  //       const unifiedData = res.data.data.map((item) => {
+  //         const { Last_Name, name, Phone, Mobile, phone, model, ...rest } = item;
   
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-  };
+  //         return {
+  //           ...rest,
+  //           Name: Last_Name || name,
+  //           "Phone Number": Phone || Mobile || phone,
+  //           model: model ? model.toUpperCase() : model,
+  //         };
+  //       });
   
-  useEffect(() => {
-  async function fetchUniqueValues() {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("authTokenAutozone");
-      if (!token) {
-         navigate("/login");
-        return;
-      }
+  //       setCol([
+  //         { field: "id", headerName: "ID", flex: 0.5 },
+  //         {
+  //           field: "Name",
+  //           headerName: "Name",
+  //           flex: 1,
+  //           cellClassName: "name-column--cell",
+  //         },
+  //         {
+  //           field: "Phone Number",
+  //           headerName: "Phone Number",
+  //           flex: 1,
+  //           cellClassName: "phone-column--cell",
+  //         },
+  //         {
+  //           field: "model",
+  //           headerName: "Model",
+  //           flex: 1,
+  //           cellClassName: "phone-column--cell",
+  //         },
+         
+  //         {
+  //           field: "leadFrom",
+  //           headerName: "Lead From",
+  //           flex: 1,
+  //         },
+  //         {
+  //           field: "date",
+  //           headerName: "Date",
+  //           flex: 1,
+  //         },
+  //         {
+  //           field: "time",
+  //           headerName: "Time",
+  //           flex: 1,
+  //         },
+  //       ]);
 
-      const res = await axios.post(
-        'https://autozone-backend.onrender.com/findDataInRangeInAllCollections',
-        {
-          startDate: startDate,
-          endDate: endDate,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
-
-      setCol([
-        { field: "id", headerName: "ID", flex: 0.5 },
-        {
-          field: "Name",
-          headerName: "Name",
-          flex: 1,
-          cellClassName: "name-column--cell",
-        },
-        {
-          field: "Phone Number",
-          headerName: "Phone Number",
-          flex: 1,
-          cellClassName: "phone-column--cell",
-        },
-        {
-          field: "leadFrom",
-          headerName: "Lead From",
-          flex: 1,
-        },
-        {
-          field: "date",
-          headerName: "Date",
-          flex: 1,
-        },
-        {
-          field: "time",
-          headerName: "Time",
-          flex: 1,
-        },
-      ]);
-      setData(unifiedData);
-      setLoading(false);
-    } catch (err) {
-      setError(err);
-      window.alert(err)
-      navigate("/login");
-      setLoading(false);
-    }
-  }
-
-
-    if (startDate && endDate) {
-      fetchUniqueValues();
-    }
-  }, [startDate, endDate, navigate]);
-
+       
+  //       setData(unifiedData);
+  //       setSelectedView(`${startDate} to ${endDate}`); 
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError(err);
+  //       window.alert(err);
+  //       navigate("/login");
+  //       setLoading(false);
+  //     }
+  //   };
+  
+  //   if (startDate && endDate) {
+  //     fetchUniqueValues();
+  //   }
+  // }, [startDate, endDate, navigate]);
 
   const handleReset = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authTokenAutozone");
-        if (!token) {
-           navigate("/login");
-          return;
-        }
+      if (!token) {
+        navigate("/login");
+        return;
+      }
       const res = await axios.get(
-        'https://autozone-backend.onrender.com/allData',
+        "https://autozone-backend.onrender.com/allData",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
+      const unifiedData = res.data.data.map((item) => {
+        const { Last_Name, name, Phone, Mobile, phone,number, model, ...rest } = item;
 
+        return {
+          ...rest,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone|| number,
+          model: model ? model.toUpperCase() : model,
+        };
+      });
+       
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
         {
@@ -219,6 +256,13 @@ const AutoZone = () => {
           flex: 1,
           cellClassName: "phone-column--cell",
         },
+        {
+          field: "model",
+          headerName: "Model",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+       
         {
           field: "leadFrom",
           headerName: "Lead From",
@@ -237,12 +281,15 @@ const AutoZone = () => {
       ]);
 
       setData(unifiedData);
+      setSelectedView(""); // Set selected view
+      setStartDate("");
+      setEndDate("");
       setLoading(false);
-      setStartDate(null)
-      setEndDate(null)
+      handleClose(); // Close the menu after resetting
+      setActiveButton(""); // Clear active button
     } catch (err) {
       setError(err);
-      window.alert(err)
+      window.alert("token expired");
       navigate("/login");
       setLoading(false);
     }
@@ -253,7 +300,7 @@ const AutoZone = () => {
       setLoading(true);
       const token = localStorage.getItem("authTokenAutozone");
       if (!token) {
-         navigate("/login");
+        navigate("/login");
         return;
       }
       const res = await axios.get(
@@ -271,26 +318,37 @@ const AutoZone = () => {
         processedData.push({
           id: idCounter++,
           phoneNumber: item.number,
-          model: item.vehicle || '',
+          // model: item.vehicle || "",
+          model: item.vehicle ? item.vehicle.toUpperCase() : "", // Convert model to uppercase
           count: item.count,
           date: item.date, // Adding the date field
-          leadFrom :item.leadFrom
+          leadFrom: item.leadFrom,
         });
       });
 
       setCol([
-        { field: 'id', headerName: 'ID', flex: 0.5 },
-        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 , cellClassName: 'phone-column--cell', },
-        { field: 'model', headerName: 'Model', flex: 1 },
-        { field: 'leadFrom', headerName: 'leadFrom', flex: 1 },
-        { field: 'count', headerName: 'Count', flex: 1 },
-        { field: 'date', headerName: 'Date', flex: 1 }, // Adding the date column
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "phoneNumber",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        { field: "model", headerName: "Model", flex: 1 },
+        { field: "leadFrom", headerName: "leadFrom", flex: 1 },
+        { field: "count", headerName: "Count", flex: 1 },
+        { field: "date", headerName: "Date", flex: 1 }, // Adding the date column
       ]);
 
       setData(processedData);
+      setSelectedView("Duplicates"); // Set selected view
       setLoading(false);
-      setStartDate(null)
+      setStartDate("");
+      setEndDate("");
+      handleClose(); // Close the menu after fetching duplicates
+      setActiveButton("duplicates"); // Set active button
     } catch (err) {
+      console.error(err);
       setError(err);
       window.alert(err)
       navigate("/login");
@@ -312,11 +370,16 @@ const AutoZone = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      const unifiedData = res.data.data.map((item) => ({
-        ...item,
-        Name: item.Last_Name || item.name,
-        "Phone Number": item.Phone || item.Mobile || item.phone,
-      }));
+      const unifiedData = res.data.data.map((item) => {
+        const { Last_Name, name, Phone, Mobile, phone,number, model, ...rest } = item;
+
+        return {
+          ...rest,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone|| number,
+          model: model ? model.toUpperCase() : model,
+        };
+      });
 
       setCol([
         { field: "id", headerName: "ID", flex: 0.5 },
@@ -332,6 +395,13 @@ const AutoZone = () => {
           flex: 1,
           cellClassName: "phone-column--cell",
         },
+        {
+          field: "model",
+          headerName: "Model",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+       
         {
           field: "leadFrom",
           headerName: "Lead From",
@@ -350,15 +420,108 @@ const AutoZone = () => {
       ]);
 
       setData(unifiedData);
+      setSelectedView("Unique"); // Set selected view
+      setStartDate("");
+      setEndDate("");
       setLoading(false);
+      handleClose(); // Close the menu after fetching unique entries
+      setActiveButton("unique"); // Set active button
     } catch (error) {
       setError(error);
-    window.alert(error)
-      
+      window.alert("token expired");
       navigate("/login");
       setLoading(false);
     }
   };
+
+ 
+
+  const handleGetData = async () => {
+    if (!startDate || !endDate) {
+      window.alert("Please select both start and end dates");
+      return;
+    }
+    let res;
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("authTokenAutozone");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+      res = await axios.post(
+        'https://autozone-backend.onrender.com/findDataInRangeInAllCollections',
+        {
+          startDate: startDate,
+          endDate: endDate,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const unifiedData = res.data.data.map((item) => {
+        const { Last_Name, name, Phone, Mobile, phone,number, model,vehicle, ...rest } = item;
+
+        return {
+          ...rest,
+          Name: Last_Name || name,
+          "Phone Number": Phone || Mobile || phone|| number,
+          model: vehicle ? vehicle.toUpperCase() : vehicle,
+        };
+      });
+      setCol([
+        { field: "id", headerName: "ID", flex: 0.5 },
+        {
+          field: "Name",
+          headerName: "Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+        {
+          field: "Phone Number",
+          headerName: "Phone Number",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+        {
+          field: "model",
+          headerName: "Model",
+          flex: 1,
+          cellClassName: "phone-column--cell",
+        },
+       
+        {
+          field: "leadFrom",
+          headerName: "Lead From",
+          flex: 1,
+        },
+        {
+          field: "date",
+          headerName: "Date",
+          flex: 1,
+        },
+        {
+          field: "time",
+          headerName: "Time",
+          flex: 1,
+        },
+      ]);
+      setData(unifiedData);
+      setSelectedView(`${startDate} to ${endDate}`); // Set selected view
+      setLoading(false);
+      handleClose(); // Close the menu after getting data
+      setActiveButton("dateRange"); // Set active button
+    } catch (err) {
+      setError(err);
+      window.alert("token expired");
+      navigate("/login");
+      setLoading(false);
+    }
+  };
+
+
+ const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleDownloadCSV = () => {
     const csvData = [];
@@ -384,228 +547,199 @@ const AutoZone = () => {
     document.body.removeChild(a);
   };
 
-  // Custom toolbar with the download button
-  
-const CustomToolbar = () => {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-        <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
-        <IconButton
-          color="primary"
-          onClick={handleDownloadCSV}
-          sx={{
-            marginLeft: "10px",
-            backgroundColor: "white",
-            fontSize: "14px",
-            padding: "5px",
-            minWidth: "auto",
-            height: "25px",
-            color:"#1d3a8a"
-          }}
-        >
-          <DownloadIcon />
-        </IconButton>
-      </GridToolbarContainer>
-    );
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
- return (
-    <Box m="20px">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-     <Header title="AutoZone All Data" subtitle='data from all the forms'  />
-        <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ marginRight: "10px" }}>
-            <TextField
-              id="start-date"
-              label="Start Date"
-              type="date"
-              value={startDate}
-              onChange={handleStartDateChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{ margin: "10px" }}
-            />
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-            <TextField
-              id="end-date"
-              label="End Date"
-              type="date"
-              value={endDate}
-              onChange={handleEndDateChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{ margin: "10px" }}
-            />
-          </div>
-
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ backgroundColor: "#1d3a8a", mr: 2,color: "white",  '&:hover': {
-              backgroundColor: "red",
-            },
-           }}
-            onClick={handleDup}
-          >
-            Duplicates
-          </Button>
-
-          {/* <input
-            type='date'
-            required
-            sx={{ mr: 2, backgroundColor: '#940004' }}
-            value={inputValue}
-            onChange={(e) => {
-              const newInputValue = e.target.value;
-              console.log('New input value:', newInputValue);
-              setInputValue(newInputValue);
-              handleRemoveDuplicates(newInputValue);
-            }}
-            style={{
-              backgroundColor: '#940004',
-              color: 'white',
-              borderRadius: '6px',
-              border: 'none',
-              padding: '6px',
-              margin: '15px', // Add margin to separate input and button
-              flex: 1,
-              // Allow the input to grow to fill available space
-            }}
-          /> */}
-
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ mr: 2, backgroundColor: "#1d3a8a" , color: "white", '&:hover': {
-              backgroundColor: "red",
-            }, }}
-            onClick={uniqueEntries}
-          >
-            {" "}
-            <LooksOneIcon />
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ backgroundColor: "#1d3a8a",color: "white",  '&:hover': {
-              backgroundColor: "red",
-            }, }}
-            onClick={handleReset}
-          >
-            Reset
-          </Button>
-          {/* <Button
-            variant='contained'
-            color='primary'
-            sx={{ ml: 2, backgroundColor: '#940004' }}
-            onClick={handleRemoveDuplicates}
-          >
-            Unique
-          </Button>
-          <input
-            type='date'
-            required
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            style={{
-              marginLeft: '16px',
-              backgroundColor: '#940004',
-              color: 'white',
-              borderRadius: '8px',
-              border: 'none',
-              padding: '8px',
-            }}
-          /> */}
-        </div>
-      </div>
-      
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
+  const CustomToolbar = () => (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton
         sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-            backgroundColor: "white",
-            // border: "1px solid #ccc", // Add a border to the table
-          },
-          "& .phone-column--cell": {
-            color: colors.sabooAutoColors[500],
-          },
-          "& .MuiDataGrid-columnHeader": {
-            color: "white",
-            backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.sabooAutoColors[400],
-          },
-         
-          "& .MuiCheckbox-root": {
-            color: `${colors.sabooAutoColors[600]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text ": {
-            color: `${colors.sabooAutoColors[600]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text:hover ": {
-            color: `${colors.sabooAutoColors[600]}} !important`,
-          },
-          "& .MuiDataGrid-sortIcon": {
-            color: "white",
-          },
-          // "& .MuiDataGrid-cell": {
-          //   //borderBottom: "none",
-          //   backgroundColor: "white",
-          //   borderBottom: "1px solid #ccc", // Add a border to table cells
-          // },
-
-          "& .css-196n7va-MuiSvgIcon-root": {
-            color: "white",
-          },
+          color: "black",
         }}
-      >
-        {loading ? (
-          <div style={{ fontSize: "14px" }}>Processing, please wait...</div>
-        ) : error ? (
-          "Error ~ Something went wrong :)"
-        ) : (
-          <DataGrid
-            rows={newData}
-            columns={col.map((column) => ({
-              ...column,
-              renderCell: (params) => (
-                <div
-                  style={{
-                    whiteSpace: "pre-wrap", // Enable word wrapping
-                    overflow: "hidden", // Hide overflow content
-                    textOverflow: "ellipsis", // Show ellipsis for overflow
-                  }}
-                >
-                  {params.value}
-                </div>
-              ),
-            }))}
-            components={{ Toolbar: CustomToolbar }}
-            sx={{
-              backgroundColor: "white", // Set the background color to white
-              fontSize: 15,
-              
-            }}
-          />
-        )}
-      </Box>
+      />
+      <GridToolbarFilterButton
+        sx={{
+          color: "black",
+        }}
+      />
+      <GridToolbarDensitySelector
+        sx={{
+          color: "black",
+        }}
+      />
+      <IconButton onClick ={handleDownloadCSV}>
+        <DownloadIcon sx={{ color: "black" }} />
+      </IconButton>
 
+      <IconButton onClick={handleReset}>
+        <RefreshIcon sx={{ color: "black" }} />
+      </IconButton>
+    </GridToolbarContainer>
+  );
+
+  const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+  
+  return (
+    <Box m="20px">
+       {loading ? (
+      <LoadingComponent /> // Render the loading component when loading is true
+    ) : (
+      <>
+      <Header title=" AutoZone All Data" subtitle="data from all the forms" />
+     
+      <Box display="flex" justifyContent="space-between" mb="10px">
+        <Box display="flex">
+         
+          {selectedView && (
+            <Typography
+              variant="h5"
+              p="10px"
+              borderRadius="4px"
+              // bgcolor={colors.blueAccent[700]}
+              color={colors.grey[800]}
+            >
+              (Viewing {selectedView})
+            </Typography>
+          )}
+        </Box>
+        <Box display="flex" alignItems="center">
+        <Button
+            variant="contained"
+            color={activeButton === "unique" ? "error" : "primary"}
+            onClick={uniqueEntries}
+            style={{
+              backgroundColor: activeButton === "unique" ? "red" : undefined,
+              marginRight: "8px",
+              fontWeight:  activeButton === "unique" ?"bold": undefined,
+            }}
+          >
+            Unique Entries
+          </Button>
+          <Button
+            variant="contained"
+            color={activeButton === "duplicates" ? "error" : "primary"}
+            onClick={handleDup}
+            style={{
+              backgroundColor:
+                activeButton === "duplicates" ? "red" : undefined,
+              marginRight: "8px",
+              fontWeight:  activeButton === "duplicates" ?"bold": undefined,
+            }}
+          >
+            Duplicate Entries
+          </Button>
+          <Button
+            variant="contained"
+            color={activeButton === "dateRange" ? "error" : "primary"}
+            onClick={handleMenuClick}
+            style={{
+              backgroundColor: activeButton === "dateRange" ? "red" : undefined,
+              fontWeight:  activeButton === "dateRange" ?"bold": undefined,
+            }}
+          >
+            Date Range Entries
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem>
+              <TextField
+                label="Start Date"
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  max: currentDate,
+                }}
+              />
+            </MenuItem>
+            <MenuItem>
+              <TextField
+                label="End Date"
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  min: startDate || "",
+                  max: currentDate,
+                }}
+              />
+            </MenuItem>
+            <MenuItem
+              onClick={handleGetData}
+              sx={{
+                backgroundColor: "gray",
+                color: "white",
+                width: "80px",
+                mx: "40px",
+                borderRadius: "8px",
+                "&:hover": {
+                  backgroundColor: "red",
+                },
+              }}
+            >
+              Submit
+            </MenuItem>
+          </Menu>
+          {/* {selectedView && (
+            <Typography
+              variant="h5"
+              p="10px"
+              borderRadius="4px"
+              // bgcolor={colors.blueAccent[700]}
+              color={colors.grey[800]}
+            >
+              (Viewing {selectedView})
+            </Typography>
+          )} */}
+        </Box>
+      </Box>
+      <Box height="75vh" mt="20px">
+        <DataGrid
+          rows={newData}
+          columns={col}
+          loading={loading}
+          error={error}
+          components={{
+            Toolbar: CustomToolbar,
+          }}
+          // componentsProps={{
+          //   columnHeaders: {
+          //     style: {
+          //       backgroundColor: "black",
+          //       color: colors.grey[100],
+          //       fontSize: "3rem",
+          //       fontWeight: "bold",
+          //     },
+          //   },
+          // }}
+          sx={{
+            backgroundColor: "white", // Set the background color to white
+            fontSize: 15,
+            "& .MuiDataGrid-columnHeader": {
+              color: "white",
+              backgroundColor: colors.sabooAutoColors[600], // Optional background color for headers
+            },
+          }}
+        />
+      </Box>
+      </>
+    )}
     </Box>
   );
 };
 
-export default AutoZone;
-
-
+export default AllData;

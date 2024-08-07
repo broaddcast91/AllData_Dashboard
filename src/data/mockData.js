@@ -46,3 +46,13 @@ export const mockLineData = [
   },
 ];
 
+export const compareBar = [
+  {
+    x: "Jul2024",
+    y: 5303,
+  },
+  {
+    x: "Aug2024",
+    y: 5303,
+  },
+];

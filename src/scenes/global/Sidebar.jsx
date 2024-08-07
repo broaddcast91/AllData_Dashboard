@@ -11,6 +11,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import StorageIcon from "@mui/icons-material/Storage";
 import { SiSuzuki } from "react-icons/si";
 import { ImTruck } from "react-icons/im";
+import { RiDashboardFill } from "react-icons/ri";
 // import { BiSolidCarWash } from "react-icons/bi";
 
 const CustomSubMenuTitle = ({ title, icon }) => (
@@ -146,6 +147,13 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+             <Item
+                title="Dashboard"
+                to="/dashboard"
+                icon={<RiDashboardFill />}
+                selected={selected}
+                setSelected={setSelected}
+              />
             <SubMenu
               title={
                 <CustomSubMenuTitle icon={<StorageIcon />} title="All Data" />

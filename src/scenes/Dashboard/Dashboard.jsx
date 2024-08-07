@@ -227,6 +227,7 @@ const Dashboard = () => {
             backgroundColor="white"
             overflow="auto"
             sx={{ borderRadius: "10px" }}
+           
           >
             <Box
               display="flex"
@@ -254,6 +255,8 @@ const Dashboard = () => {
                 backgroundColor: "#d2d8e8",
                 borderRadius: "15px",
                 mt: "10px",
+                px:'35px'
+             
               }}
             >
               <Typography
@@ -268,6 +271,7 @@ const Dashboard = () => {
                 color={colors.primary[1002]}
                 variant="body2"
                 fontWeight="600"
+                // backgroundColor="red"
                 // sx={{ flex: 1, marginRight: "19px" }}
               >
                 LeadFrom
@@ -276,10 +280,7 @@ const Dashboard = () => {
                 color={colors.primary[1002]}
                 variant="body2"
                 fontWeight="600"
-                // backgroundColor="red"
-                // alignItems="center"
-                // // marginRight="10px"
-                // sx={{ flex: 1  , marginRight: "19px" }}
+               
               >
                 Date
               </Typography>
@@ -300,21 +301,23 @@ const Dashboard = () => {
                 alignItems="center"
                 borderBottom={`1px solid ${colors.primary[1002]}`}
                 p="15px"
+                
               >
                 <Box>
                   <Typography
                     color={colors.redAccent[400]}
                     variant="h6"
                     fontWeight="600"
+                    width="60px"
                   >
                     {transaction.phone}
                   </Typography>
-                  <Typography color={colors.grey[100]}>
-                    {transaction.user}
-                  </Typography>
+                  {/* <Typography color={colors.grey[100]}>
+                    {transaction.user} */}
+                  {/* </Typography> */}
                 </Box>
-                <Box color={colors.primary[1002]}>{transaction.leadFrom}</Box>
-                <Box color={colors.primary[1002]}>{transaction.date}</Box>
+                <Box color={colors.primary[1002]}width="90px"   display="flex" justifyContent="center" >{transaction.leadFrom}</Box>
+                <Box color={colors.primary[1002]} >{transaction.date}</Box>
                 <Box color={colors.primary[1002]}>{transaction.time}</Box>
               </Box>
             ))}

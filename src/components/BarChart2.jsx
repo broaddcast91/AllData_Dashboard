@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import dayjs from 'dayjs';
-import { rowFirst } from '../data/mockData';  // Adjust the import according to your data structure
+// import { rowFirst } from '../data/mockData';  // Adjust the import according to your data structure
 
 // Register the components
 ChartJS.register(
@@ -22,14 +22,15 @@ ChartJS.register(
     Legend
 );
 
-function BarChart2() {
+function BarChart2({barchart}) {
     const getCurrentMonthAndPreviousMonthData = () => {
         // const currentMonth = dayjs().format('MMMYYYY');
         // const previousMonth = dayjs().subtract(1, 'month').format('MMMYYYY');
 
         // Using LeadsCount data for current and previous months
-        const currentMonthData = rowFirst.currentMonthCounts;
-        const previousMonthData = rowFirst.previousMonthCounts;
+        // console.log(barchart)
+        const currentMonthData = barchart.currentMonthCounts;
+        const previousMonthData = barchart.previousMonthCounts;
 
         const currentMonthLabel = dayjs().format('MMMM YYYY');
         const previousMonthLabel = dayjs().subtract(1, 'month').format('MMMM YYYY');

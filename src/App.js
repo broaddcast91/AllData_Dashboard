@@ -18,8 +18,9 @@ import SabooGroups from './scenes/SabooGroups'
 import NexaAllData from './scenes/nexa';
 import AutoZone from './scenes/AutoZone';
 // import Service from './scenes/Service';
-import Dashboard from "./scenes/Dashboard/Dashboard";
+// import Dashboard from "./scenes/Dashboard/Dashboard";
 import Commercial from './scenes/Commercial/Commercial';
+import Dashboard2 from './scenes/Dashboard2/Dashboard2';
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -51,7 +52,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Login />} />
               <Route path='/dashboard' element={<div style={{ backgroundColor:  '#1d3a8a' ,minHeight: '100vh' }}>
-      <Dashboard />
+      <Dashboard2 />
     </div>} />
               {/* <Route path='/popup' element={<Popup />} /> */}
               {/* <Route path='/onroadprice' element={<OnRoadPrice />} /> */}

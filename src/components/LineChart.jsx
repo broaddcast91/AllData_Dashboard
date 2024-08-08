@@ -1,15 +1,39 @@
 import { ResponsiveLine } from '@nivo/line';
 import { useTheme } from '@mui/material';
 import { tokens } from '../theme';
-import { mockLineData as data } from '../data/mockData';
+// import { mockLineData as data } from '../data/mockData';
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChart = ({  isDashboard = false , monthYearCounts}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  let mockLineData = [
+    {
+      id: 'Arena',
+      color: 'hsl(224, 66%, 44%)',
+      data: monthYearCounts.ArenaMonthlyData || [],
+    },
+    {
+      id: 'Nexa',
+      color: "hsl(0, 0%, 0%)",
+      data: monthYearCounts.NexaMonthlyData || [],
+    },
+    {
+      id: 'Autozone',
+      color: 'hsl(42, 70%, 50%)',
+      data: monthYearCounts.AutozoneMonthlyData || [],
+    },
+    {
+      id: 'Commercial',
+      color: 'hsl(345, 70%, 50%)',
+      data: monthYearCounts.CommercialMonthlyData || [],
+    },
+  ];
+  
   return (
+    // {console.log(mockLineData)}
     <ResponsiveLine
-      data={data}
+
+      data={mockLineData}
       width={800} // Pass width prop to ResponsiveLine
       theme={{
         axis: {
@@ -112,6 +136,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         },
       ]}
     />
+    
   );
 };
 

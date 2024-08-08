@@ -1,9 +1,9 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
-import { mockBarData as data } from "../data/mockData";
+// import { mockBarData as data } from "../data/mockData";
 
-const BarChart = ({ isDashboard = false }) => {
+const BarChart = ({ isDashboard = false , barchartData}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -14,10 +14,11 @@ const BarChart = ({ isDashboard = false }) => {
     // "saboo groups": "hsl(133, 70%, 50%)",
     Commercial: "#FF2922",
   };
+console.log(barchartData)
 
   return (
     <ResponsiveBar
-      data={data}
+      data={barchartData}
       theme={{
         // added
         axis: {
